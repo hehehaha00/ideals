@@ -43,6 +43,7 @@ export function loadServerConfig(): ServerConfig {
     apiKey: process.env.IDEA_AI_API_KEY ?? "",
     model: process.env.IDEA_AI_MODEL ?? "gpt-5.5",
     timeoutMs: Number(process.env.IDEA_AI_TIMEOUT_MS ?? 60_000),
+    proxyUrl: process.env.IDEA_AI_PROXY_URL || undefined,
     port: Number(process.env.IDEA_API_PORT ?? 8787),
     cacheTtlMs: Number(process.env.IDEA_AI_CACHE_TTL_MS ?? 10 * 60_000),
   };

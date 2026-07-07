@@ -1,4 +1,5 @@
 // 这个文件封装 OpenAI 兼容中转站的 chat completions 请求和流式解析。
+import { fetch as undiciFetch, ProxyAgent, type Dispatcher } from "undici";
 import type { ChatPrompt } from "./promptBuilder";
 
 export interface RelayConfig {
@@ -6,6 +7,7 @@ export interface RelayConfig {
   apiKey: string;
   model: string;
   timeoutMs: number;
+  proxyUrl?: string;
 }
 
 // 去掉末尾斜杠，避免拼 URL 时出现双斜杠。
@@ -48,25 +50,29 @@ export function extractDeltaContent(payload: unknown): string {
 export async function requestChatCompletion(prompt: ChatPrompt, config: RelayConfig, onDelta?: (text: string) => void): Promise<string> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), config.timeoutMs);
+  const dispatcher = config.proxyUrl ? new ProxyAgent(config.proxyUrl) : undefined;
+  const relayFetch = config.proxyUrl ? (undiciFetch as unknown as typeof fetch) : fetch;
+  const requestOptions: RequestInit & { dispatcher?: Dispatcher } = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${config.apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: config.model,
+      messages: [
+        { role: "system", content: prompt.system },
+        { role: "user", content: prompt.user },
+      ],
+      temperature: 0.9,
+      stream: true,
+    }),
+    signal: controller.signal,
+    dispatcher,
+  };
 
   try {
-    const response = await fetch(`${normalizeBaseUrl(config.baseUrl)}/v1/chat/completions`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${config.apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: config.model,
-        messages: [
-          { role: "system", content: prompt.system },
-          { role: "user", content: prompt.user },
-        ],
-        temperature: 0.9,
-        stream: true,
-      }),
-      signal: controller.signal,
-    });
+    const response = await relayFetch(`${normalizeBaseUrl(config.baseUrl)}/v1/chat/completions`, requestOptions);
 
     if (!response.ok) {
       const errorText = await response.text();

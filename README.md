@@ -27,6 +27,7 @@ Copy-Item .env.example .env.local
 - `IDEA_AI_MODEL`：模型名，默认 `gpt-5.5`。
 - `IDEA_AI_API_KEY`：中转站 key。
 - `IDEA_AI_CACHE_TTL_MS`：AI 结果缓存时间，默认 10 分钟。
+- `IDEA_AI_PROXY_URL`：可选；直连中转站被拦时使用本地代理，例如 `http://127.0.0.1:7897`。
 
 如果没有配置 key，产品会自动使用本地 fallback，仍然可以完整演示。
 
