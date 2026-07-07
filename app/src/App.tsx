@@ -1,17 +1,39 @@
-// 这个文件暂时展示 MVP 首页占位，后续会组合完整工作台。
+// 这个文件组合脑洞实验室 MVP 的完整工作台页面。
+import { AppShell } from "./components/layout/AppShell";
+import { Panel } from "./components/ui/Panel";
+import { CollisionTray } from "./components/workbench/CollisionTray";
+import { DimensionBoard } from "./components/workbench/DimensionBoard";
+import { FavoriteDock } from "./components/workbench/FavoriteDock";
+import { IdeaCardList } from "./components/workbench/IdeaCardList";
+import { TopicComposer } from "./components/workbench/TopicComposer";
+import { TransformerPanel } from "./components/workbench/TransformerPanel";
+import { useIdeaStore } from "./store/ideaStore";
+
+// 渲染 MVP 主界面。
 function App(): JSX.Element {
+  const error = useIdeaStore((state) => state.error);
+
   return (
-    <main className="min-h-screen bg-paper-50 text-ink-900">
-      <div className="mx-auto flex min-h-screen max-w-7xl items-center justify-center px-6">
-        <section className="rounded-lg border border-line-100 bg-paper-0 p-8 shadow-soft">
-          <p className="font-mono text-xs uppercase tracking-normal text-spark-500">Idea Lab</p>
-          <h1 className="mt-3 font-serif text-4xl leading-tight">脑洞实验室</h1>
-          <p className="mt-4 max-w-xl text-base leading-7 text-ink-700">
-            输入一个模糊方向，让 AI 先陪你发散，再把有生命力的想法留下来。
-          </p>
-        </section>
-      </div>
-    </main>
+    <AppShell
+      left={
+        <>
+          <Panel eyebrow="Session" title="当前会话">
+            <p className="text-sm leading-6 text-ink-500">单次发散</p>
+          </Panel>
+          <FavoriteDock />
+        </>
+      }
+      center={
+        <>
+          <TopicComposer />
+          {error && <div className="rounded-lg border border-amber-600 bg-yellow-100 p-3 text-sm text-ink-900">{error}</div>}
+          <DimensionBoard />
+          <CollisionTray />
+          <IdeaCardList />
+        </>
+      }
+      right={<TransformerPanel />}
+    />
   );
 }
 
