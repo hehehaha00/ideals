@@ -12,6 +12,7 @@ interface IdeaStoreState {
   favorites: FavoriteIdea[];
   activeIdeaId?: string;
   loading: "idle" | "words" | "ideas" | "transform";
+  streamText: string;
   error?: string;
   setTopic: (topic: string) => void;
   setIntensity: (intensity: Intensity) => void;
@@ -36,6 +37,7 @@ const INITIAL_STATE = {
   favorites: [],
   activeIdeaId: undefined,
   loading: "idle" as const,
+  streamText: "",
   error: undefined,
 };
 
@@ -76,9 +78,13 @@ export const useIdeaStore = create<IdeaStoreState>((set, get) => ({
       return;
     }
 
-    set({ loading: "words", error: undefined });
-    const groups = await requestWords({ topic, intensity });
-    set({ groups, ideas: [], activeIdeaId: undefined, loading: "idle" });
+    set({ loading: "words", streamText: "", error: undefined });
+    const groups = await requestWords({
+      topic,
+      intensity,
+      onProgress: (text) => set((state) => ({ streamText: `${state.streamText}${text}`.slice(-300) })),
+    });
+    set({ groups, ideas: [], activeIdeaId: undefined, loading: "idle", streamText: "" });
   },
   toggleWordLock: (wordId) =>
     set((state) => ({
@@ -110,9 +116,13 @@ export const useIdeaStore = create<IdeaStoreState>((set, get) => ({
       return;
     }
 
-    set({ loading: "words", error: undefined });
-    const freshGroups = await requestWords({ topic: `${topic} ${Date.now()}`, intensity });
-    set({ groups: mergeLockedWords(groups, freshGroups), loading: "idle" });
+    set({ loading: "words", streamText: "", error: undefined });
+    const freshGroups = await requestWords({
+      topic: `${topic} ${Date.now()}`,
+      intensity,
+      onProgress: (text) => set((state) => ({ streamText: `${state.streamText}${text}`.slice(-300) })),
+    });
+    set({ groups: mergeLockedWords(groups, freshGroups), loading: "idle", streamText: "" });
   },
   randomizeCollision: () =>
     set((state) => ({
@@ -132,9 +142,13 @@ export const useIdeaStore = create<IdeaStoreState>((set, get) => ({
       return;
     }
 
-    set({ loading: "ideas", error: undefined });
-    const ideas = await requestIdeas({ topic, sourceWords: words });
-    set({ ideas, activeIdeaId: ideas[0]?.id, loading: "idle" });
+    set({ loading: "ideas", streamText: "", error: undefined });
+    const ideas = await requestIdeas({
+      topic,
+      sourceWords: words,
+      onProgress: (text) => set((state) => ({ streamText: `${state.streamText}${text}`.slice(-300) })),
+    });
+    set({ ideas, activeIdeaId: ideas[0]?.id, loading: "idle", streamText: "" });
   },
   setActiveIdea: (ideaId) => set({ activeIdeaId: ideaId }),
   transformActiveIdea: async (direction) => {
@@ -145,12 +159,17 @@ export const useIdeaStore = create<IdeaStoreState>((set, get) => ({
       return;
     }
 
-    set({ loading: "transform", error: undefined });
-    const transformed = await requestTransform({ idea, direction });
+    set({ loading: "transform", streamText: "", error: undefined });
+    const transformed = await requestTransform({
+      idea,
+      direction,
+      onProgress: (text) => set((state) => ({ streamText: `${state.streamText}${text}`.slice(-300) })),
+    });
     set((state) => ({
       ideas: [transformed, ...state.ideas],
       activeIdeaId: transformed.id,
       loading: "idle",
+      streamText: "",
     }));
   },
   toggleFavorite: (ideaId) => {

@@ -12,6 +12,7 @@ import { useIdeaStore } from "./store/ideaStore";
 // 渲染 MVP 主界面。
 function App(): JSX.Element {
   const error = useIdeaStore((state) => state.error);
+  const streamText = useIdeaStore((state) => state.streamText);
 
   return (
     <AppShell
@@ -27,6 +28,7 @@ function App(): JSX.Element {
         <>
           <TopicComposer />
           {error && <div className="rounded-lg border border-amber-600 bg-yellow-100 p-3 text-sm text-ink-900">{error}</div>}
+          {streamText && <div className="rounded-lg border border-line-100 bg-paper-0 p-3 text-sm leading-6 text-ink-700">正在接收灵感流：{streamText}</div>}
           <DimensionBoard />
           <CollisionTray />
           <IdeaCardList />

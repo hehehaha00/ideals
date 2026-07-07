@@ -12,6 +12,24 @@ npm run dev
 
 打开终端显示的本地地址，通常是 `http://127.0.0.1:5173`。
 
+## AI 配置
+
+真实 AI 通过本地代理调用中转站，密钥不会进入浏览器打包结果。复制 `app/.env.example` 为 `app/.env.local` 后填写本地密钥即可。
+
+```powershell
+Set-Location .\app
+Copy-Item .env.example .env.local
+```
+
+需要配置的变量：
+
+- `IDEA_AI_BASE_URL`：中转站地址，默认 `https://sub2.congmingai.com`。
+- `IDEA_AI_MODEL`：模型名，默认 `gpt-5.5`。
+- `IDEA_AI_API_KEY`：中转站 key。
+- `IDEA_AI_CACHE_TTL_MS`：AI 结果缓存时间，默认 10 分钟。
+
+如果没有配置 key，产品会自动使用本地 fallback，仍然可以完整演示。
+
 ## 测试
 
 ```powershell
@@ -24,6 +42,7 @@ npm run e2e
 ## 技术架构
 
 - Vite + React + TypeScript：负责前端应用。
+- 本地 Node API 代理：负责中转站 key、流式请求、缓存、提示词拼接和 JSON 校验。
 - Tailwind CSS：负责视觉样式。
 - Zustand：负责主题、词组、脑洞和收藏状态。
 - localStorage：保存第一版收藏内容。
@@ -38,6 +57,7 @@ npm run e2e
 - 碰撞生成脑洞卡片。
 - 脑洞变形。
 - 收藏和本地持久化。
+- 接入 OpenAI 兼容中转站，支持流式接收、服务端缓存、上下文压缩和失败 fallback。
 
 ## 后续阶段
 
