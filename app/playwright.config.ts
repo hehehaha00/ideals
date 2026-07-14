@@ -2,18 +2,20 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const chromePath = process.env.PLAYWRIGHT_CHROME_PATH ?? "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+const webPort = process.env.PLAYWRIGHT_PORT ?? "5173";
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://127.0.0.1:${webPort}`;
 
 export default defineConfig({
   testDir: "./e2e",
   timeout: 30_000,
   use: {
-    baseURL: "http://127.0.0.1:5173",
+    baseURL,
     trace: "on-first-retry",
   },
   webServer: {
-    command: "npm run dev:e2e",
-    url: "http://127.0.0.1:5173",
-    reuseExistingServer: false,
+    command: `npm run dev:e2e -- --port ${webPort}`,
+    url: baseURL,
+    reuseExistingServer: true,
     timeout: 120_000,
   },
   projects: [

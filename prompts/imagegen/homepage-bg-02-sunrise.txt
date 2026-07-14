@@ -1,0 +1,7 @@
+Create a clean 16:9 cinematic background image only, no UI and no text.
+
+Scene: warm sunrise above a pale cloud ocean, peach, champagne, misty ivory and soft gold light. The sun is low on the right side, with glowing haze, layered clouds, shallow depth of field, and gentle airborne particles near the lower center. The image should feel like a thought lifting off through warm mist.
+
+Purpose: this will be used as a full-screen web app homepage background with interface elements overlaid later. Leave a calm readable empty zone in the center from 28% to 72% width and 20% to 58% height, but do not draw any box, input, button, text, logo, device, frame, dashboard, panel, card, or icons.
+
+Style: refined editorial web hero background, realistic cloud volume, luminous sunrise atmosphere, soft edge details, no typography, no UI, no people, no buildings.

@@ -1,0 +1,16 @@
+Create a high-fidelity UI concept image for the "碰撞台" screen of "脑洞实验室", a Chinese AI brain-storming laboratory product.
+
+Focus: the middle workspace where multiple dimension words are selected and collide into idea seeds.
+
+Visual style: warm paper desk, clean white panels, orange action spark #FF5701, soft pastel chips, subtle paper texture, fine ink path lines. The interface should feel like a cognitive lab bench, not a corporate dashboard.
+
+Composition:
+- top area: small page title "碰撞台" and subtitle "把不相干的词放在一起".
+- a horizontal tray with six labeled slots: 人群, 场景, 情绪, 物件, 结构, 限制.
+- each slot contains one selected rounded chip, for example "独立开发者", "深夜", "烂尾焦虑", "GitHub 仓库", "博物馆", "不能催促".
+- thin curved connector lines converge into a central orange spark node.
+- below the node, three idea seed cards appear as if generated from the collision.
+- one idea card highlighted: "项目遗迹博物馆", with a compact explanation and source chips.
+- side mini panel: "联想路径" showing a chain "项目 → 烂尾 → 遗迹 → 博物馆".
+
+Use sparse, useful UI text. Avoid decorative blob backgrounds, oversized hero text, KPI cards, or generic SaaS templates. Make the UI feel real, buildable, and premium.

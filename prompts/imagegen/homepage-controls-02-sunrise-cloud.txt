@@ -1,0 +1,21 @@
+Create a 2K desktop UI component concept sheet for an AI idea-brainstorming homepage.
+
+Only show the hero input area, recommendation tags, and one start button. No full webpage, no large title, no navigation, no side panels, no stacked cards.
+
+Style direction: sunrise cloud membrane. The input is a warm translucent cream panel suspended in peach-gold clouds, with an irregular soft cloud-edge silhouette, inner parchment glow, and fine golden contour lines. It should feel poetic and tactile, like a thought resting on a cloud, but still usable as a modern UI control.
+
+Components:
+- One large prompt input centered, spacious, cloud-soft but clean.
+- Four recommendation tags as small floating cloud tabs or wax-seal tabs, each with a unique tiny icon or notch.
+- One start button that feels warmer and more energetic than the tags.
+
+Use these exact Chinese UI strings if text appears:
+Placeholder: 把脑子里一闪而过的想法写下来...
+Tags: 开发者工具, 游戏机制, 内容选题, 我不知道做什么
+Button: 开始发散
+
+Visual requirements:
+- peach sunrise, cream, soft gold, pale coral, misty clouds
+- distinctive input and tags, no ordinary gray chips
+- no brand, no logo, no extra copy
+- cinematic but clear, premium UI mockup, 16:9 composition

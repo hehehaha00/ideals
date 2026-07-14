@@ -1,0 +1,17 @@
+Create a high-fidelity product UI mockup for a Chinese AI creativity workspace named "脑洞实验室".
+
+Screen: desktop app main MVP workspace, 16:9 composition.
+
+Visual style: warm paper surface, clean AI workspace, light creative laboratory feeling. Primary background #F9F8F4, main surfaces white, ink text #111827, action orange #FF5701, soft chip colors rose #F2D9DC, mint #D9F2D8, pale sky, pale violet, pale yellow. No dark cyberpunk, no purple-blue gradient, no corporate KPI dashboard.
+
+Layout:
+- left sidebar 280px with product name "脑洞实验室", session list, material pool, favorites.
+- central workspace with large sticky-note-like prompt input, segmented control "轻微 / 正常 / 狂野", orange button "开始发散".
+- below input, six rows of colorful rounded word chips: "人群", "场景", "情绪", "物件", "结构", "限制"; include lock and shuffle icon buttons.
+- central collision tray showing selected chips connected by thin hand-drawn path lines.
+- idea cards under the tray, each showing title, one-sentence explanation, source chips, and actions "变形" and "收藏".
+- right inspector with selected idea, transformation buttons, and incubation box.
+
+Typography: elegant Chinese serif for major title, clean sans-serif for UI, JetBrains Mono style tiny labels. 8pt spacing rhythm, 12px card radius, subtle thin borders.
+
+Render as a polished product screenshot, realistic browser/app frame, crisp UI, readable hierarchy, no fake charts, no marketing hero, no random extra modules. Chinese UI text should be minimal and as accurate as possible.

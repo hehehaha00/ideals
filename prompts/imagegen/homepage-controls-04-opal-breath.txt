@@ -1,0 +1,21 @@
+Create a 2K desktop UI component concept sheet for an AI idea-brainstorming homepage.
+
+Only show the hero input area, recommendation tags, and one start button. No large title, no full webpage, no marketing hero, no sidebar, no panel grid.
+
+Style direction: opal breath interface. The input is a translucent opal-glass vessel floating in high clouds, with pearlescent edge color shifts, soft cyan-pink refractions, rounded organic corners, and a gentle fog halo. Tags are little opal tokens that feel collectible and touchable.
+
+Components:
+- One large prompt input centered, minimal and refined.
+- Four recommendation tags below it, each shaped like a small floating opal tab with different color flecks.
+- One compact start button that feels like a brighter charged opal.
+
+Use these exact Chinese UI strings if text appears:
+Placeholder: 把脑子里一闪而过的想法写下来...
+Tags: 开发者工具, 游戏机制, 内容选题, 我不知道做什么
+Button: 开始发散
+
+Visual requirements:
+- cloudy white background with subtle cyan, pink, lavender, and champagne highlights
+- misty, floating, dreamlike, but still clear and product-grade
+- no brand, no logo, no extra text
+- distinctive UI controls, not standard web components, 16:9 composition

@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>脑洞实验室 UI 概念图</title>
+  <style>
+    :root {
+      --ink-900: #111827;
+      --ink-700: #374151;
+      --ink-500: #6b7280;
+      --paper-0: #ffffff;
+      --paper-50: #f9f8f4;
+      --paper-100: #f6f6f1;
+      --line-100: #e9e5da;
+      --spark-500: #ff5701;
+      --spark-600: #e64d00;
+      --rose-100: #f2d9dc;
+      --mint-100: #d9f2d8;
+      --sky-100: #dcecff;
+      --violet-100: #e9ddfb;
+      --yellow-100: #fff1c2;
+      --shadow-soft: 0 18px 44px rgba(17, 24, 39, 0.08);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 40px;
+      background: #dedad0;
+      color: var(--ink-900);
+      font-family: Inter, "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+    }
+
+    .shot {
+      position: relative;
+      overflow: hidden;
+      width: 1536px;
+      height: 1024px;
+      margin: 0 0 56px;
+      background:
+        linear-gradient(rgba(17, 24, 39, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 24, 39, 0.025) 1px, transparent 1px),
+        var(--paper-50);
+      background-size: 32px 32px;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 280px 1fr 360px;
+      gap: 18px;
+      height: 100%;
+      padding: 24px;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid var(--line-100);
+      border-radius: var(--radius);
+    }
+
+    .side { padding: 20px; }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      font-family: "Noto Serif SC", "Songti SC", serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .spark {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--spark-500);
+      border-radius: 8px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 18px;
+    }
+
+    .nav-title {
+      margin: 24px 0 10px;
+      color: var(--ink-500);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 38px;
+      padding: 0 10px;
+      border-radius: 8px;
+      color: var(--ink-700);
+      font-size: 14px;
+    }
+
+    .nav-item.active {
+      background: var(--paper-100);
+      color: var(--ink-900);
+      font-weight: 700;
+    }
+
+    .count {
+      color: var(--ink-500);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+    }
+
+    .workspace {
+      min-width: 0;
+      padding: 22px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line-100);
+      border-radius: var(--radius);
+    }
+
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .kicker {
+      color: var(--ink-500);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      letter-spacing: 0;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-family: "Noto Serif SC", "Songti SC", serif;
+      letter-spacing: 0;
+    }
+
+    h1 { font-size: 36px; line-height: 1.18; }
+    h2 { font-size: 24px; line-height: 1.28; }
+    h3 { font-size: 18px; line-height: 1.35; }
+
+    .ghost-btn, .icon-btn, .primary-btn, .seg button, .small-btn {
+      border: 1px solid var(--line-100);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink-900);
+      font: inherit;
+    }
+
+    .ghost-btn {
+      height: 36px;
+      padding: 0 12px;
+      color: var(--ink-700);
+      font-size: 14px;
+    }
+
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      color: var(--ink-500);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 14px;
+    }
+
+    .primary-btn {
+      height: 44px;
+      padding: 0 18px;
+      border-color: var(--spark-500);
+      background: var(--spark-500);
+      color: white;
+      font-weight: 700;
+    }
+
+    .input-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      padding: 16px;
+      background: var(--paper-0);
+      border: 1px solid var(--line-100);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 24px rgba(17, 24, 39, 0.05);
+    }
+
+    .prompt {
+      min-height: 92px;
+      padding: 14px 0 0;
+      color: var(--ink-700);
+      font-size: 20px;
+      line-height: 1.45;
+    }
+
+    .input-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .seg {
+      display: inline-flex;
+      padding: 3px;
+      background: var(--paper-100);
+      border: 1px solid var(--line-100);
+      border-radius: 8px;
+    }
+
+    .seg button {
+      height: 30px;
+      padding: 0 10px;
+      border: 0;
+      background: transparent;
+      color: var(--ink-500);
+      font-size: 13px;
+    }
+
+    .seg button.active {
+      background: #fff;
+      color: var(--ink-900);
+      box-shadow: 0 2px 6px rgba(17, 24, 39, 0.08);
+    }
+
+    .word-zone {
+      margin-top: 20px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .word-row {
+      display: grid;
+      grid-template-columns: 72px 1fr 72px;
+      align-items: center;
+      gap: 10px;
+      min-height: 46px;
+    }
+
+    .row-label {
+      color: var(--ink-500);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 30px;
+      padding: 0 12px;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      border-radius: 999px;
+      color: var(--ink-900);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .chip.sky { background: var(--sky-100); }
+    .chip.yellow { background: var(--yellow-100); }
+    .chip.rose { background: var(--rose-100); }
+    .chip.mint { background: var(--mint-100); }
+    .chip.violet { background: var(--violet-100); }
+    .chip.paper { background: var(--paper-100); border-style: dashed; }
+    .chip.selected { outline: 2px solid var(--spark-500); }
+    .chip.locked::before { content: "锁"; color: var(--spark-600); font-family: "JetBrains Mono", monospace; font-size: 10px; }
+
+    .row-actions {
+      display: flex;
+      gap: 6px;
+      justify-content: flex-end;
+    }
+
+    .collision {
+      margin-top: 18px;
+      padding: 18px;
+      background: #fff;
+      border: 1px solid var(--line-100);
+      border-radius: var(--radius);
+    }
+
+    .collision-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .slot-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+
+    .slot {
+      min-height: 78px;
+      padding: 10px;
+      border: 1px dashed #d6d0c4;
+      border-radius: 8px;
+      background: var(--paper-50);
+    }
+
+    .slot span {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--ink-500);
+      font-size: 12px;
+    }
+
+    .sentence {
+      margin-top: 12px;
+      color: var(--ink-700);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .ideas {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .idea-card {
+      padding: 16px;
+      background: #fff;
+      border: 1px solid var(--line-100);
+      border-radius: var(--radius);
+      min-height: 172px;
+    }
+
+    .idea-card.hot {
+      border-color: rgba(255, 87, 1, 0.38);
+      box-shadow: 0 8px 20px rgba(255, 87, 1, 0.1);
+    }
+
+    .idea-card p {
+      margin: 9px 0 12px;
+      color: var(--ink-700);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .small-btn {
+      height: 30px;
+      padding: 0 10px;
+      color: var(--ink-700);
+      font-size: 13px;
+    }
+
+    .small-btn.orange {
+      border-color: rgba(255, 87, 1, 0.24);
+      color: var(--spark-600);
+      background: rgba(255, 87, 1, 0.06);
+    }
+
+    .inspector {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .selected-card {
+      padding: 16px;
+      background: #fff;
+      border: 1px solid rgba(255, 87, 1, 0.32);
+      border-radius: var(--radius);
+    }
+
+    .selected-card p {
+      color: var(--ink-700);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .incubate {
+      padding: 14px;
+      background: var(--mint-100);
+      border: 1px solid rgba(22, 163, 74, 0.16);
+      border-radius: var(--radius);
+    }
+
+    .note {
+      margin-top: 10px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .canvas-shot { padding: 48px; }
+
+    .canvas-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 34px;
+    }
+
+    .tray {
+      position: relative;
+      height: 420px;
+      padding: 28px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid var(--line-100);
+      border-radius: var(--radius);
+    }
+
+    .big-slots {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .big-slot {
+      height: 130px;
+      padding: 14px;
+      border: 1px dashed #d5cec0;
+      border-radius: 8px;
+      background: var(--paper-50);
+    }
+
+    .big-slot .chip {
+      margin-top: 20px;
+      font-size: 15px;
+    }
+
+    .spark-node {
+      position: absolute;
+      left: 50%;
+      top: 265px;
+      transform: translate(-50%, -50%);
+      width: 74px;
+      height: 74px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--spark-500);
+      color: white;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 28px;
+      box-shadow: 0 18px 34px rgba(255, 87, 1, 0.28);
+      z-index: 3;
+    }
+
+    .path-line {
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      top: 248px;
+      height: 1px;
+      background: repeating-linear-gradient(90deg, rgba(17, 24, 39, 0.24), rgba(17, 24, 39, 0.24) 8px, transparent 8px, transparent 15px);
+      z-index: 1;
+    }
+
+    .seed-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .path-panel {
+      position: absolute;
+      right: 48px;
+      bottom: 48px;
+      width: 380px;
+      padding: 18px;
+      background: #fff;
+      border: 1px solid var(--line-100);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .path-chain {
+      margin-top: 12px;
+      color: var(--ink-700);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .detail-layout {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 22px;
+      height: 100%;
+      padding: 34px;
+    }
+
+    .detail-card {
+      padding: 34px;
+      background: #fff;
+      border: 1px solid var(--line-100);
+      border-radius: var(--radius);
+    }
+
+    .detail-card h1 {
+      font-size: 44px;
+      margin-bottom: 18px;
+    }
+
+    .section {
+      padding: 18px 0;
+      border-top: 1px solid var(--line-100);
+    }
+
+    .section:first-of-type { border-top: 0; }
+
+    .section-title {
+      margin-bottom: 8px;
+      color: var(--ink-500);
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+    }
+
+    .section p {
+      margin: 0;
+      color: var(--ink-700);
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    .mobile-wrap {
+      display: grid;
+      place-items: center;
+      height: 100%;
+      background: #d8d3c8;
+    }
+
+    .phone {
+      width: 390px;
+      height: 844px;
+      padding: 18px;
+      background: var(--paper-50);
+      border: 10px solid #111827;
+      border-radius: 44px;
+      box-shadow: 0 26px 54px rgba(17, 24, 39, 0.24);
+      overflow: hidden;
+    }
+
+    .phone-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 6px 0 14px;
+      font-family: "Noto Serif SC", serif;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .mobile-input {
+      padding: 12px;
+      background: #fff;
+      border: 1px solid var(--line-100);
+      border-radius: 8px;
+    }
+
+    .mobile-input .placeholder {
+      min-height: 52px;
+      color: var(--ink-700);
+      line-height: 1.5;
+      font-size: 16px;
+    }
+
+    .mobile-section { margin-top: 12px; }
+
+    .scroll-chips {
+      display: flex;
+      gap: 8px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .mobile-card {
+      margin-top: 12px;
+      padding: 12px;
+      background: #fff;
+      border: 1px solid var(--line-100);
+      border-radius: 8px;
+    }
+
+    .bottom-nav {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+      padding: 8px;
+      background: #fff;
+      border: 1px solid var(--line-100);
+      border-radius: 8px;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .bottom-nav div {
+      padding: 10px 0;
+      border-radius: 8px;
+      color: var(--ink-500);
+    }
+
+    .bottom-nav .on {
+      background: var(--spark-500);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .style-board {
+      padding: 42px;
+      display: grid;
+      grid-template-columns: 1.05fr 1.2fr;
+      gap: 30px;
+    }
+
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .swatch {
+      height: 108px;
+      padding: 10px;
+      border: 1px solid rgba(17, 24, 39, 0.1);
+      border-radius: 8px;
+      display: flex;
+      align-items: flex-end;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      color: rgba(17, 24, 39, 0.72);
+    }
+
+    .component-shelf {
+      display: grid;
+      gap: 14px;
+    }
+
+    .sample-strip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px;
+      background: #fff;
+      border: 1px solid var(--line-100);
+      border-radius: 8px;
+    }
+
+    .mini-layout {
+      display: grid;
+      grid-template-columns: 80px 1fr 110px;
+      gap: 8px;
+      height: 180px;
+      padding: 10px;
+      background: #fff;
+      border: 1px solid var(--line-100);
+      border-radius: 8px;
+    }
+
+    .mini-layout > div {
+      border-radius: 8px;
+      background: var(--paper-100);
+      border: 1px solid var(--line-100);
+    }
+  </style>
+</head>
+<body>
+  <section id="home" class="shot">
+    <div class="app">
+      <aside class="panel side">
+        <div class="brand"><span class="spark">✦</span>脑洞实验室</div>
+        <div class="nav-title">Sessions</div>
+        <div class="nav-item active"><span>开发者工具方向</span><span class="count">12</span></div>
+        <div class="nav-item"><span>游戏机制灵感</span><span class="count">8</span></div>
+        <div class="nav-item"><span>内容选题池</span><span class="count">5</span></div>
+        <div class="nav-title">Rooms</div>
+        <div class="nav-item"><span>素材池</span><span class="count">24</span></div>
+        <div class="nav-item"><span>联想路径</span><span class="count">36</span></div>
+        <div class="nav-item"><span>碰撞台</span><span class="count">Live</span></div>
+        <div class="nav-item"><span>孵化箱</span><span class="count">7</span></div>
+      </aside>
+      <main class="workspace">
+        <div class="topline">
+          <div>
+            <div class="kicker">MVP WORKSPACE</div>
+            <h1>先给我一个模糊方向</h1>
+          </div>
+          <button class="ghost-btn">导出会话</button>
+        </div>
+        <div class="input-card">
+          <div class="prompt">我想做一个有趣的开发者工具，但不要像普通效率软件。</div>
+          <div class="input-actions">
+            <div class="seg"><button>轻微</button><button class="active">正常</button><button>狂野</button></div>
+            <button class="primary-btn">开始发散</button>
+          </div>
+        </div>
+        <div class="word-zone">
+          <div class="word-row"><div class="row-label">人群</div><div class="chips"><span class="chip sky selected locked">独立开发者</span><span class="chip sky">产品经理</span><span class="chip sky">插件作者</span><span class="chip sky">写作的人</span></div><div class="row-actions"><button class="icon-btn">锁</button><button class="icon-btn">换</button></div></div>
+          <div class="word-row"><div class="row-label">场景</div><div class="chips"><span class="chip yellow selected">深夜</span><span class="chip yellow">交付前</span><span class="chip yellow">会议后</span><span class="chip yellow">灵感枯竭</span></div><div class="row-actions"><button class="icon-btn">锁</button><button class="icon-btn">换</button></div></div>
+          <div class="word-row"><div class="row-label">情绪</div><div class="chips"><span class="chip rose selected">烂尾焦虑</span><span class="chip rose">想炫耀</span><span class="chip rose">怕无聊</span><span class="chip rose">不甘心</span></div><div class="row-actions"><button class="icon-btn">锁</button><button class="icon-btn">换</button></div></div>
+          <div class="word-row"><div class="row-label">物件</div><div class="chips"><span class="chip mint selected">GitHub 仓库</span><span class="chip mint">浏览器历史</span><span class="chip mint">截图</span><span class="chip mint">文件夹</span></div><div class="row-actions"><button class="icon-btn">锁</button><button class="icon-btn">换</button></div></div>
+          <div class="word-row"><div class="row-label">结构</div><div class="chips"><span class="chip violet selected">博物馆</span><span class="chip violet">法庭</span><span class="chip violet">塔防</span><span class="chip violet">黑匣子</span></div><div class="row-actions"><button class="icon-btn">锁</button><button class="icon-btn">换</button></div></div>
+          <div class="word-row"><div class="row-label">限制</div><div class="chips"><span class="chip paper selected">不能催用户继续做</span><span class="chip paper">只能本地运行</span><span class="chip paper">每天 1 分钟</span></div><div class="row-actions"><button class="icon-btn">锁</button><button class="icon-btn">换</button></div></div>
+        </div>
+        <div class="collision">
+          <div class="collision-head"><h3>碰撞台</h3><button class="small-btn orange">把这些词撞一下</button></div>
+          <div class="slot-grid">
+            <div class="slot"><span>人群</span><b>独立开发者</b></div>
+            <div class="slot"><span>场景</span><b>深夜</b></div>
+            <div class="slot"><span>情绪</span><b>烂尾焦虑</b></div>
+            <div class="slot"><span>物件</span><b>GitHub 仓库</b></div>
+            <div class="slot"><span>结构</span><b>博物馆</b></div>
+            <div class="slot"><span>限制</span><b>不催促</b></div>
+          </div>
+          <div class="sentence">给独立开发者，在深夜和烂尾焦虑里，把 GitHub 仓库变成博物馆，但不催用户继续做。</div>
+        </div>
+        <div class="ideas">
+          <div class="idea-card hot"><h3>项目遗迹博物馆</h3><p>扫描废弃仓库，把半成品变成可浏览的作品遗址。</p><span class="chip mint">GitHub</span><div class="card-actions"><button class="small-btn orange">变形</button><button class="small-btn">收藏</button></div></div>
+          <div class="idea-card"><h3>灵感黑匣子</h3><p>记录项目停摆前的线索，帮用户看见自己怎么失去动力。</p><span class="chip violet">黑匣子</span><div class="card-actions"><button class="small-btn">变形</button><button class="small-btn">收藏</button></div></div>
+          <div class="idea-card"><h3>反效率清单</h3><p>不是推进任务，而是判断哪些项目应该安静封存。</p><span class="chip paper">反转</span><div class="card-actions"><button class="small-btn">变形</button><button class="small-btn">收藏</button></div></div>
+        </div>
+      </main>
+      <aside class="panel inspector">
+        <div class="selected-card"><div class="kicker">SELECTED IDEA</div><h2>项目遗迹博物馆</h2><p>它不逼用户继续做，而是把烂尾项目变成一个有解释、有纪念、有残留价值的空间。</p></div>
+        <div><h3>变形器</h3><div class="button-grid" style="margin-top:10px;"><button class="small-btn">更实用一点</button><button class="small-btn">更荒诞一点</button><button class="small-btn">更游戏化一点</button><button class="small-btn">更像插件</button><button class="small-btn">像 Agent skill</button><button class="small-btn orange">保留隐喻</button></div></div>
+        <div class="incubate"><h3>孵化箱</h3><div class="note">项目遗迹博物馆</div><div class="note">注意力行情图</div><div class="note">开源愿望池</div></div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="collision" class="shot canvas-shot">
+    <div class="canvas-head">
+      <div><div class="kicker">COLLISION CANVAS</div><h1>碰撞台</h1><p style="color:var(--ink-500);font-size:18px;">把不相干的词放在一起。</p></div>
+      <button class="primary-btn">生成脑洞</button>
+    </div>
+    <div class="tray">
+      <div class="path-line"></div>
+      <div class="big-slots">
+        <div class="big-slot"><span class="row-label">人群</span><span class="chip sky selected">独立开发者</span></div>
+        <div class="big-slot"><span class="row-label">场景</span><span class="chip yellow selected">深夜</span></div>
+        <div class="big-slot"><span class="row-label">情绪</span><span class="chip rose selected">烂尾焦虑</span></div>
+        <div class="big-slot"><span class="row-label">物件</span><span class="chip mint selected">GitHub 仓库</span></div>
+        <div class="big-slot"><span class="row-label">结构</span><span class="chip violet selected">博物馆</span></div>
+        <div class="big-slot"><span class="row-label">限制</span><span class="chip paper selected">不能催促</span></div>
+      </div>
+      <div class="spark-node">✦</div>
+    </div>
+    <div class="seed-row">
+      <div class="idea-card hot"><h3>项目遗迹博物馆</h3><p>让废弃仓库成为可浏览的创作遗址。</p><span class="chip mint">保留价值</span></div>
+      <div class="idea-card"><h3>烂尾鉴定师</h3><p>判断一个项目应该复活、封存还是拆零件。</p><span class="chip yellow">决策辅助</span></div>
+      <div class="idea-card"><h3>仓库墓志铭</h3><p>为旧项目自动生成一份温柔的阶段复盘。</p><span class="chip rose">情绪出口</span></div>
+    </div>
+    <div class="path-panel"><h3>联想路径</h3><div class="path-chain">项目 → 烂尾 → 遗迹 → 博物馆<br/>效率 → 反效率 → 封存 → 纪念</div></div>
+  </section>
+
+  <section id="detail" class="shot">
+    <div class="detail-layout">
+      <div class="detail-card">
+        <div class="kicker">IDEA DETAIL</div>
+        <h1>项目遗迹博物馆</h1>
+        <div class="section"><div class="section-title">一句话</div><p>扫描用户废弃的 GitHub 仓库，把它们变成一个可浏览、可纪念、可提取残留价值的作品遗址。</p></div>
+        <div class="section"><div class="section-title">为什么有趣</div><p>它反过来处理创作焦虑：不是催人继续，而是承认有些东西值得好好结束。</p></div>
+        <div class="section"><div class="section-title">来源词</div><div class="chips"><span class="chip sky">独立开发者</span><span class="chip yellow">深夜</span><span class="chip rose">烂尾焦虑</span><span class="chip mint">GitHub 仓库</span><span class="chip violet">博物馆</span><span class="chip paper">不能催促</span></div></div>
+        <div class="section"><div class="section-title">第一版形态</div><p>一个本地网页工具：读取仓库列表、README 和最近提交，生成项目卡片、墓志铭、残留价值和可复活零件。</p></div>
+      </div>
+      <aside class="panel inspector">
+        <h2>变形器</h2>
+        <div class="button-grid"><button class="small-btn">更实用一点</button><button class="small-btn">更荒诞一点</button><button class="small-btn">更游戏化一点</button><button class="small-btn orange">更像插件</button><button class="small-btn">像 Agent skill</button><button class="small-btn">保留隐喻</button></div>
+        <div class="incubate"><h3>孵化箱</h3><div class="note">项目遗迹博物馆</div><div class="note">注意力行情图</div><div class="note">个人数字行为考古</div></div>
+        <div class="selected-card"><h3>下一次孵化</h3><p>把“项目遗迹”和“注意力行情”混合，尝试生成一个个人创作行为地图。</p></div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="mobile" class="shot">
+    <div class="mobile-wrap">
+      <div class="phone">
+        <div class="phone-header"><span>脑洞实验室</span><span class="spark">✦</span></div>
+        <div class="mobile-input">
+          <div class="placeholder">先给我一个模糊方向：想做一个有趣的开发者工具。</div>
+          <div class="seg" style="width:100%;margin:10px 0;"><button>轻微</button><button class="active">正常</button><button>狂野</button></div>
+          <button class="primary-btn" style="width:100%;">开始发散</button>
+        </div>
+        <div class="mobile-section"><div class="row-label">人群</div><div class="scroll-chips"><span class="chip sky selected">独立开发者</span><span class="chip sky">产品经理</span></div></div>
+        <div class="mobile-section"><div class="row-label">情绪</div><div class="scroll-chips"><span class="chip rose selected">烂尾焦虑</span><span class="chip rose">想炫耀</span></div></div>
+        <div class="mobile-section"><div class="row-label">结构</div><div class="scroll-chips"><span class="chip violet selected">博物馆</span><span class="chip violet">黑匣子</span></div></div>
+        <div class="mobile-card"><div class="kicker">碰撞摘要</div><p style="margin:8px 0;color:var(--ink-700);line-height:1.55;">独立开发者 + 烂尾焦虑 + GitHub 仓库 + 博物馆</p></div>
+        <div class="mobile-card"><h3>项目遗迹博物馆</h3><p style="color:var(--ink-700);line-height:1.55;">把废弃仓库变成可浏览的作品遗址。</p><div class="card-actions"><button class="small-btn orange">变形</button><button class="small-btn">收藏</button></div></div>
+        <div class="bottom-nav"><div class="on">发散</div><div>收藏</div><div>孵化</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="style-board" class="shot style-board">
+    <div>
+      <div class="kicker">DESIGN SYSTEM</div>
+      <h1>脑洞实验室 UI 风格板</h1>
+      <p style="color:var(--ink-700);font-size:18px;line-height:1.7;max-width:560px;">清醒的 AI 工作台，加一点温柔的创意实验室气质。白色纸面、墨色路径、橙色火花、柔和贴片。</p>
+      <div class="swatches">
+        <div class="swatch" style="background:#111827;color:white;">ink</div>
+        <div class="swatch" style="background:#f9f8f4;">paper</div>
+        <div class="swatch" style="background:#ff5701;color:white;">spark</div>
+        <div class="swatch" style="background:#f2d9dc;">rose</div>
+        <div class="swatch" style="background:#d9f2d8;">mint</div>
+        <div class="swatch" style="background:#dcecff;">sky</div>
+        <div class="swatch" style="background:#e9ddfb;">violet</div>
+        <div class="swatch" style="background:#fff1c2;">yellow</div>
+      </div>
+    </div>
+    <div class="component-shelf">
+      <div class="sample-strip"><button class="primary-btn">开始发散</button><button class="ghost-btn">重掷</button><button class="icon-btn">锁</button><div class="seg"><button>轻微</button><button class="active">正常</button><button>狂野</button></div></div>
+      <div class="sample-strip"><span class="chip sky selected">独立开发者</span><span class="chip rose locked">烂尾焦虑</span><span class="chip mint">GitHub 仓库</span><span class="chip violet">博物馆</span></div>
+      <div class="idea-card hot"><h3>项目遗迹博物馆</h3><p>扫描废弃仓库，把它们变成可浏览的作品遗址。</p><div class="card-actions"><button class="small-btn orange">变形</button><button class="small-btn">收藏</button></div></div>
+      <div class="mini-layout"><div></div><div></div><div></div></div>
+    </div>
+  </section>
+</body>
+</html>

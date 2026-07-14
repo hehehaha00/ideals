@@ -1,0 +1,16 @@
+Create a high-fidelity UI mockup for the idea detail and transformation panel of "脑洞实验室".
+
+Screen: desktop app, focused on one selected idea card.
+
+Style: agentic but friendly, warm paper white background, crisp ink text, orange primary actions, pastel semantic chips. Calm, premium, slightly playful. No dark theme, no neon, no gradient blobs.
+
+Layout:
+- left area shows the selected idea card enlarged.
+- card title: "项目遗迹博物馆".
+- body sections: "一句话", "为什么有趣", "来源词", "第一版形态".
+- show source chips in pastel colors: "独立开发者", "深夜", "烂尾焦虑", "GitHub 仓库", "博物馆", "不能催促".
+- right panel titled "变形器".
+- six transformation buttons: "更实用一点", "更荒诞一点", "更游戏化一点", "更像插件", "更像 Agent skill", "保留隐喻".
+- lower right area "孵化箱" with small saved idea notes and a soft mint background.
+
+Interaction cues: selected state, lock icon, bookmark icon, subtle loading shimmer on one button. High quality UI screenshot, readable hierarchy, clean spacing, restrained card use.

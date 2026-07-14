@@ -32,10 +32,10 @@ export function Chip({ text, groupType, selected, locked, onSelect, onToggleLock
         locked && "border-ink-700",
       )}
     >
-      <button className="max-w-36 truncate hover:text-spark-600" type="button" onClick={onSelect} title={text}>
+      <button className="max-w-36 truncate hover:text-spark-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-spark-500" type="button" onClick={onSelect} title={text}>
         {text}
       </button>
-      <button className="rounded-full p-0.5 hover:bg-paper-0/70" type="button" onClick={onToggleLock} aria-label={locked ? "解锁词" : "锁定词"}>
+      <button className="rounded-full p-0.5 hover:bg-paper-0/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-spark-500" type="button" onClick={onToggleLock} aria-label={locked ? "解锁词" : "锁定词"}>
         {locked ? <Lock className="h-3.5 w-3.5" /> : <Unlock className="h-3.5 w-3.5" />}
       </button>
     </span>

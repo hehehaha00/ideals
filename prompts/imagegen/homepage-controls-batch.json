@@ -1,0 +1,26 @@
+[
+  {
+    "prompt_file": "prompts/imagegen/homepage-controls-01-sky-lens.txt",
+    "output": "assets/ui/homepage-controls/homepage-controls-01-sky-lens.png",
+    "size": "2048x1152",
+    "quality": "high"
+  },
+  {
+    "prompt_file": "prompts/imagegen/homepage-controls-02-sunrise-cloud.txt",
+    "output": "assets/ui/homepage-controls/homepage-controls-02-sunrise-cloud.png",
+    "size": "2048x1152",
+    "quality": "high"
+  },
+  {
+    "prompt_file": "prompts/imagegen/homepage-controls-03-moonmist-stardust.txt",
+    "output": "assets/ui/homepage-controls/homepage-controls-03-moonmist-stardust.png",
+    "size": "2048x1152",
+    "quality": "high"
+  },
+  {
+    "prompt_file": "prompts/imagegen/homepage-controls-04-opal-breath.txt",
+    "output": "assets/ui/homepage-controls/homepage-controls-04-opal-breath.png",
+    "size": "2048x1152",
+    "quality": "high"
+  }
+]

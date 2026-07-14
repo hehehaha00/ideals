@@ -1,39 +1,57 @@
-// 这个文件验证本地灵感引擎在没有 AI 接口时也能完整工作。
+// 这个文件只验证纯结构转换工具，不再维护本地假生成引擎。
 import { describe, expect, it } from "vitest";
-import { DIMENSION_GROUPS } from "../types/idea";
-import { generateFallbackIdeas, generateFallbackWords, transformFallbackIdea } from "./ideaEngine";
+import { DIMENSION_GROUPS, type BrainstormMap } from "../types/idea";
+import { mindMapNodesToWords } from "./ideaEngine";
+
+function sampleMindMap(): BrainstormMap {
+  const center = {
+    id: "center",
+    label: "项目灵感",
+    category: "中心" as const,
+    level: 0 as const,
+    x: 50,
+    y: 50,
+    selectable: false,
+    locked: true,
+    selected: false,
+    reason: "中心主题",
+  };
+  const nodes = DIMENSION_GROUPS.map((category, index) => ({
+    id: `node-${category}`,
+    label: `${category}节点`,
+    category,
+    level: 1 as const,
+    x: 20 + index * 8,
+    y: 30 + index * 4,
+    selectable: true,
+    locked: index === 0,
+    selected: true,
+    reason: `${category}角度`,
+    parentId: center.id,
+  }));
+
+  return {
+    id: "map",
+    topic: "项目灵感",
+    stuckType: "有兴趣没形态",
+    center,
+    nodes: [center, ...nodes],
+    edges: nodes.map((node) => ({ id: `edge-${node.id}`, from: center.id, to: node.id, label: node.category })),
+    recommendedNodeIds: nodes.map((node) => node.id),
+    createdAt: "2026-07-09T00:00:00.000Z",
+  };
+}
 
 describe("ideaEngine", () => {
-  it("generates six dimension groups with eight words each", () => {
-    const groups = generateFallbackWords("我想做一个有趣的开发者工具", "正常");
+  it("converts selected mind map nodes into collision words with source paths", () => {
+    const map = sampleMindMap();
+    const selectedNodes = map.nodes.filter((node) => node.selectable).slice(0, 6);
+    const words = mindMapNodesToWords(selectedNodes, map);
 
-    expect(groups).toHaveLength(6);
-    expect(groups.map((group) => group.type)).toEqual(DIMENSION_GROUPS);
-    for (const group of groups) {
-      expect(group.words).toHaveLength(8);
-      expect(group.words.every((word) => word.groupType === group.type)).toBe(true);
-    }
-  });
-
-  it("generates idea cards from selected words", () => {
-    const groups = generateFallbackWords("开发者工具", "狂野");
-    const selectedWords = groups.map((group) => group.words[0]);
-    const ideas = generateFallbackIdeas("开发者工具", selectedWords);
-
-    expect(ideas.length).toBeGreaterThanOrEqual(3);
-    expect(ideas.length).toBeLessThanOrEqual(5);
-    expect(ideas[0]?.sourceWords).toHaveLength(6);
-    expect(ideas[0]?.title.length).toBeGreaterThan(0);
-  });
-
-  it("transforms an idea while preserving source words", () => {
-    const groups = generateFallbackWords("内容创作", "轻微");
-    const idea = generateFallbackIdeas("内容创作", groups.map((group) => group.words[0]))[0];
-    const transformed = transformFallbackIdea(idea, "更游戏化一点");
-
-    expect(transformed.id).not.toBe(idea.id);
-    expect(transformed.parentId).toBe(idea.id);
-    expect(transformed.sourceWords).toEqual(idea.sourceWords);
-    expect(transformed.transformDirection).toBe("更游戏化一点");
+    expect(words).toHaveLength(6);
+    expect(words.map((word) => word.groupType)).toEqual(DIMENSION_GROUPS);
+    expect(words.every((word) => word.selected)).toBe(true);
+    expect(words[0]?.locked).toBe(true);
+    expect(words[0]?.sourcePath).toEqual(["项目灵感", "人群节点"]);
   });
 });

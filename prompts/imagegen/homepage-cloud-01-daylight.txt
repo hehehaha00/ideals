@@ -1,0 +1,8 @@
+A 16:9 high fidelity product homepage mockup for an AI brainstorming app called "脑洞实验室".
+Only show the first screen: one large poetic Chinese headline "先丢一个模糊念头。", one very large floating input field, four small recommendation chips, and one primary start button.
+Visual direction: bright daylight above soft cloud layers, quiet blue-white sky, translucent mist, the UI feels weightless and slightly floating in the clouds.
+Composition: centered content, huge empty breathing space, no outer app frame, no dashboard, no sidebars, no cards, no big enclosing box. The input is a soft cream glass surface suspended over clouds, with blurred edges and gentle ambient shadow, not a hard rectangle.
+Recommended chips: "开发者工具", "游戏机制", "内容选题", "我不知道做什么".
+Button text: "开始发散".
+Use elegant Chinese serif headline, tiny restrained brand text "IDEA LAB" above it, clean modern UI details, luminous haze, dreamy but still usable.
+No black cyberpunk, no dense grid, no stacked cards, no panels, no charts, no device frame, no random icons, no extra navigation.

@@ -2,10 +2,35 @@
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type { RelayConfig } from "./relayClient";
+import { parseAllowedOrigins } from "./originPolicy";
 
 export interface ServerConfig extends RelayConfig {
   port: number;
   cacheTtlMs: number;
+  cacheMaxEntries: number;
+  maxConcurrentRequests: number;
+  maxQueuedRequests: number;
+  requestDeadlineMs: number;
+  allowedOrigins: string[];
+}
+
+function readIntegerEnv(name: string, fallback: number, min: number, max = Number.MAX_SAFE_INTEGER): number {
+  const rawValue = process.env[name];
+  if (rawValue === undefined || rawValue.trim().length === 0) {
+    return fallback;
+  }
+
+  const parsed = Number(rawValue);
+  if (!Number.isFinite(parsed)) {
+    return fallback;
+  }
+
+  return Math.min(max, Math.max(min, Math.floor(parsed)));
+}
+
+function readStringEnv(name: string, fallback: string): string {
+  const value = process.env[name]?.trim();
+  return value && value.length > 0 ? value : fallback;
 }
 
 // 读取 .env.local，但不覆盖已存在环境变量。
@@ -28,7 +53,8 @@ export function loadEnvFile(filePath = resolve(process.cwd(), ".env.local")): vo
 
     const key = trimmed.slice(0, separatorIndex).trim();
     const value = trimmed.slice(separatorIndex + 1).trim().replace(/^['"]|['"]$/g, "");
-    if (!process.env[key]) {
+    // 空字符串也是调用方的明确配置，不能被本地文件覆盖。
+    if (process.env[key] === undefined) {
       process.env[key] = value;
     }
   }
@@ -39,12 +65,19 @@ export function loadServerConfig(): ServerConfig {
   loadEnvFile();
 
   return {
-    baseUrl: process.env.IDEA_AI_BASE_URL ?? "https://sub2.congmingai.com",
+    baseUrl: readStringEnv("IDEA_AI_BASE_URL", "https://sub2.congmingai.com"),
     apiKey: process.env.IDEA_AI_API_KEY ?? "",
-    model: process.env.IDEA_AI_MODEL ?? "gpt-5.5",
-    timeoutMs: Number(process.env.IDEA_AI_TIMEOUT_MS ?? 60_000),
+    model: readStringEnv("IDEA_AI_MODEL", "gpt-5.5"),
+    timeoutMs: readIntegerEnv("IDEA_AI_TIMEOUT_MS", 60_000, 1),
+    retryCount: readIntegerEnv("IDEA_AI_RETRY_COUNT", 2, 0),
+    retryBaseDelayMs: readIntegerEnv("IDEA_AI_RETRY_BASE_DELAY_MS", 350, 0),
     proxyUrl: process.env.IDEA_AI_PROXY_URL || undefined,
-    port: Number(process.env.IDEA_API_PORT ?? 8787),
-    cacheTtlMs: Number(process.env.IDEA_AI_CACHE_TTL_MS ?? 10 * 60_000),
+    port: readIntegerEnv("IDEA_API_PORT", 8787, 1, 65_535),
+    cacheTtlMs: readIntegerEnv("IDEA_AI_CACHE_TTL_MS", 10 * 60_000, 1),
+    cacheMaxEntries: readIntegerEnv("IDEA_AI_CACHE_MAX_ENTRIES", 200, 1),
+    maxConcurrentRequests: readIntegerEnv("IDEA_AI_MAX_CONCURRENCY", 3, 1),
+    maxQueuedRequests: readIntegerEnv("IDEA_AI_MAX_QUEUED_REQUESTS", 12, 0),
+    requestDeadlineMs: readIntegerEnv("IDEA_AI_REQUEST_DEADLINE_MS", 90_000, 1),
+    allowedOrigins: parseAllowedOrigins(process.env.IDEA_APP_ORIGINS),
   };
 }

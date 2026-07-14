@@ -1,0 +1,7 @@
+Create a clean 16:9 cinematic background image only, no UI and no text.
+
+Scene: moonlit fog above a dark cloud ocean, deep indigo and graphite sky, silver-gold moonlight, a large detailed moon in the upper right, low cloud horizon, distant mist, tiny natural star points, left side darker and right side softly illuminated by the moon. The cloud sea should have real depth and rolling shapes.
+
+Purpose: this will be used as a full-screen web app homepage background with interface elements overlaid later. Leave a calm readable empty zone in the center from 28% to 72% width and 22% to 58% height, but do not draw any box, input, button, text, logo, device, frame, dashboard, panel, card, or icons.
+
+Style: high fidelity night sky photography with cinematic polish, subtle dream atmosphere, no neon cyberpunk, no UI, no typography, no people, no buildings.

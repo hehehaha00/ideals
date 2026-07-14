@@ -1,0 +1,20 @@
+[
+  {
+    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/imagegen/homepage-bg-01-daylight.txt",
+    "output": "C:/Users/13609/.codex/workbase/ideas/app/public/home-backgrounds/idea-lab-daylight-bg.png",
+    "size": "2048x1152",
+    "quality": "high"
+  },
+  {
+    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/imagegen/homepage-bg-02-sunrise.txt",
+    "output": "C:/Users/13609/.codex/workbase/ideas/app/public/home-backgrounds/idea-lab-sunrise-bg.png",
+    "size": "2048x1152",
+    "quality": "high"
+  },
+  {
+    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/imagegen/homepage-bg-03-moonmist.txt",
+    "output": "C:/Users/13609/.codex/workbase/ideas/app/public/home-backgrounds/idea-lab-moonmist-bg.png",
+    "size": "2048x1152",
+    "quality": "high"
+  }
+]

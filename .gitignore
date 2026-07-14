@@ -11,3 +11,4 @@ test-results/
 Thumbs.db
 *.log
 .venv/
+.codegraph/

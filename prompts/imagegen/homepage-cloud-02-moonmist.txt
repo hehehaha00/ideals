@@ -1,0 +1,7 @@
+A cinematic nocturne UI concept for the landing input screen of "Idea Lab / 脑洞实验室".
+The interface contains only: a large Chinese headline "先丢一个模糊念头。", a single floating input field, several suggested prompt pills, and a single "开始发散" button.
+Make it feel like the controls are hovering in moonlit fog above a dark cloud ocean. Deep indigo, muted graphite, silver mist, faint warm candle-like highlight around the input. The page is mysterious, quiet, soft, not technical.
+The input field should be a luminous fog membrane, almost borderless, with rounded soft edges dissolved into the atmosphere. Remove all outer boxes, containers, panes, cards, sidebars, stage rails, and dashboard elements.
+Suggested pills: "开发者工具", "游戏机制", "内容选题", "我不知道做什么"; they should look like tiny drifting fog labels, not cards.
+Use graceful type, soft bokeh particles, subtle volumetric light, readable hierarchy. The result should look like a premium generative AI homepage, not an admin app.
+Avoid neon cyberpunk, avoid sharp grids, avoid heavy black panels, avoid any boxed shell around the hero.
