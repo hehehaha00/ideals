@@ -18,7 +18,7 @@
 - `app/src/components/workbench/MindMapActivity.tsx`：展示 AI 工作时的能量核、轨道、粒子和操作状态。
 - `app/src/components/workbench/useMindMapMotion.ts`：用 GSAP 编排节点爆发、重掷收束、碰撞汇聚和连线绘制，并负责减少动态效果与清理。
 - `app/src/components/workbench/IdeaCardList.tsx`：组合左侧脑洞标题导航和右侧单篇报告，并同步有效的当前脑洞。
-- `app/src/components/workbench/IdeaCard.tsx`：渲染当前脑洞报告头、基础判断、收藏、变形菜单和炼化前后主次操作。
+- `app/src/components/workbench/IdeaCard.tsx`：按封面、来源证据、核心判断、验证、挑战、讨论、行动计划组织当前脑洞报告，并统一编排底部主次操作。
 - `app/src/components/workbench/IdeaRefinery.tsx`：把炼化结果排成方向对比表、执行时间线和编辑部批注。
 - `app/src/components/workbench/IdeaChallengePanel.tsx`：在报告中按需选择反共识角色，并以连续编辑部批注展示挑战结果。
 - `app/src/components/workbench/IdeaDiscussionPanel.tsx`：在报告中按需选择讨论阵容和思维机制，召集三轮讨论，支持锁定单条观点、有限介入、方向选择，并允许用户把火花、普通分支或对立分支送回画布。

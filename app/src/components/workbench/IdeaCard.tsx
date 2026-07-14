@@ -90,65 +90,70 @@ export function IdeaCard({ idea, onReturnToOrigin, onContinueFromOrigin, onDiscu
 
   return (
     <article className="idea-report" aria-labelledby={`idea-title-${idea.id}`}>
-      <header className="border-b border-white/10 pb-7">
+      <header className="idea-report-cover">
         <div className="flex flex-wrap items-start justify-between gap-5">
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-medium text-spark-500">单篇脑洞报告</p>
+            <div className="idea-report-kicker"><span>IDEA REPORT</span><span>#{idea.id.slice(-2).toUpperCase()}</span></div>
             <h3 id={`idea-title-${idea.id}`} className="mt-3 break-words font-serif text-4xl leading-tight md:text-5xl">{idea.title}</h3>
             <p className="mt-4 max-w-3xl text-lg leading-8 text-white/72">{idea.summary}</p>
           </div>
-          <span className="inline-flex items-center gap-2 text-sm text-white/56"><Bookmark className="h-4 w-4" aria-hidden="true" />{isFavorite ? "已收藏" : "未收藏"}</span>
+          <span className={`idea-report-status ${isFavorite ? "is-saved" : ""}`}><Bookmark className="h-4 w-4" aria-hidden="true" />{isFavorite ? "已收藏" : "未收藏"}</span>
         </div>
-        <div className="mt-6 flex items-start gap-3 border-l-2 border-spark-500/60 pl-4">
+        <div className="idea-report-source mt-6">
           <Route className="mt-1 h-4 w-4 shrink-0 text-spark-500" aria-hidden="true" />
           <div><p className="text-xs text-white/42">来源路径</p><p className="mt-1 break-words text-sm leading-6 text-white/64">{sourcePath.join(" → ")}</p></div>
         </div>
       </header>
 
       {idea.origin && onReturnToOrigin && (
-        <IdeaOriginConstellation
-          disabled={loading !== "idle"}
-          idea={idea}
-          map={mindMap}
-          onReturnToOrigin={(focusNodeId) => onReturnToOrigin(idea.id, focusNodeId)}
-        />
+        <section className="idea-report-module idea-report-evidence" aria-labelledby="origin-heading">
+          <div className="idea-report-module-heading"><div><p className="idea-report-module-index">01 / SOURCE</p><h4 id="origin-heading">来源证据</h4></div><span>这条脑洞从哪里长出来</span></div>
+          <IdeaOriginConstellation disabled={loading !== "idle"} idea={idea} map={mindMap} onReturnToOrigin={(focusNodeId) => onReturnToOrigin(idea.id, focusNodeId)} />
+        </section>
       )}
 
-      <div className="grid gap-8 border-b border-white/10 py-8 md:grid-cols-2">
-        <section><h4 className="text-sm font-semibold text-spark-500">为什么值得做</h4><p className="mt-3 leading-7 text-white/74">{idea.whyInteresting}</p></section>
-        <section><h4 className="text-sm font-semibold text-spark-500">第一版怎么做</h4><p className="mt-3 leading-7 text-white/74">{idea.firstVersion}</p></section>
-      </div>
+      <section id="report-summary" className="idea-report-module idea-report-summary" aria-labelledby="summary-heading">
+        <div className="idea-report-module-heading"><div><p className="idea-report-module-index">02 / READ FIRST</p><h4 id="summary-heading">核心判断</h4></div><span>先判断值不值得继续</span></div>
+        <div className="grid gap-8 md:grid-cols-2">
+          <div><h5>为什么值得做</h5><p>{idea.whyInteresting}</p></div>
+          <div><h5>第一版怎么做</h5><p>{idea.firstVersion}</p></div>
+        </div>
+      </section>
 
-      <IdeaRefinery refinement={refinement} selectedAction={selectedAction} loading={loading === "refine"} />
+      <section id="report-refinery" className="idea-report-module" aria-label="深入验证">
+        <div className="idea-report-module-heading"><div><p className="idea-report-module-index">03 / TEST</p><h4>深入验证</h4></div><span>把直觉变成可验证的判断</span></div>
+        <IdeaRefinery refinement={refinement} selectedAction={selectedAction} loading={loading === "refine"} />
+      </section>
 
-      <IdeaChallengePanel key={idea.id} challenges={challenges} disabled={loading !== "idle"} loading={loading === "challenge"} onChallenge={handleChallenge} />
+      <section id="report-challenge" className="idea-report-module" aria-label="反共识挑战">
+        <div className="idea-report-module-heading"><div><p className="idea-report-module-index">04 / PRESSURE TEST</p><h4>反共识挑战</h4></div><span>找出最容易被忽略的假设</span></div>
+        <IdeaChallengePanel key={idea.id} challenges={challenges} disabled={loading !== "idle"} loading={loading === "challenge"} onChallenge={handleChallenge} />
+      </section>
 
-      <IdeaDiscussionPanel
-        key={`discussion-${idea.id}`}
-        discussions={discussions}
-        disabled={loading !== "idle"}
-        loading={loading === "discussion" || loading === "discussionResponse" || loading === "discussionBranch" ? loading : "idle"}
-        onCollectSpark={(discussionId, sparkId) => collectDiscussionSpark(idea.id, discussionId, sparkId)}
-        onContinueDirection={(discussionId, directionKey, opposite) => opposite === undefined
-          ? continueDiscussionDirection(idea.id, discussionId, directionKey)
-          : continueDiscussionDirection(idea.id, discussionId, directionKey, opposite)}
-        onDiscuss={handleDiscuss}
-        onDiscussionBranchCreated={onDiscussionBranchCreated}
-        onRespond={(discussionId, input) => { void respondToIdeaDiscussion(idea.id, discussionId, input); }}
-        onStop={stopDiscussion}
-      />
-
-      {refinement && <IdeaDecisionBrief idea={idea} refinement={refinement} />}
-
-      {executionPlan && (
-        <IdeaExecutionPlan
-          plan={executionPlan}
+      <section id="report-discussion" className="idea-report-module" aria-label="编辑部讨论">
+        <div className="idea-report-module-heading"><div><p className="idea-report-module-index">05 / ROUND TABLE</p><h4>编辑部讨论</h4></div><span>让不同立场把想法推向不同方向</span></div>
+        <IdeaDiscussionPanel
+          key={`discussion-${idea.id}`}
+          discussions={discussions}
           disabled={loading !== "idle"}
-          onToggle={(taskId) => toggleIdeaExecutionTask(idea.id, taskId)}
+          loading={loading === "discussion" || loading === "discussionResponse" || loading === "discussionBranch" ? loading : "idle"}
+          onCollectSpark={(discussionId, sparkId) => collectDiscussionSpark(idea.id, discussionId, sparkId)}
+          onContinueDirection={(discussionId, directionKey, opposite) => opposite === undefined ? continueDiscussionDirection(idea.id, discussionId, directionKey) : continueDiscussionDirection(idea.id, discussionId, directionKey, opposite)}
+          onDiscuss={handleDiscuss}
+          onDiscussionBranchCreated={onDiscussionBranchCreated}
+          onRespond={(discussionId, input) => { void respondToIdeaDiscussion(idea.id, discussionId, input); }}
+          onStop={stopDiscussion}
         />
-      )}
+      </section>
 
-      <footer className="mt-8 flex flex-wrap items-center gap-3 border-t border-white/10 pt-5">
+      <section id="report-plan" className="idea-report-module" aria-label="行动计划">
+        <div className="idea-report-module-heading"><div><p className="idea-report-module-index">06 / NEXT MOVE</p><h4>行动计划</h4></div><span>选择一个最小的下一步</span></div>
+        {refinement && <IdeaDecisionBrief idea={idea} refinement={refinement} />}
+        {executionPlan && <IdeaExecutionPlan plan={executionPlan} disabled={loading !== "idle"} onToggle={(taskId) => toggleIdeaExecutionTask(idea.id, taskId)} />}
+      </section>
+
+      <footer id="report-actions" className="idea-report-actionbar">
+        <span className="idea-report-actionbar-label">下一步</span>
         {refinement ? (
           <Button variant="primary" disabled={loading !== "idle"} icon={<Route className="h-4 w-4" aria-hidden="true" />} onClick={() => chooseRefinementAction(idea.id, "收束推进")}>收束推进</Button>
         ) : (
