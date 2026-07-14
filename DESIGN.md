@@ -1,5 +1,28 @@
 # 脑洞实验室 UI 前端风格设计
 
+## Source of truth
+
+- Status: Active
+- Last refreshed: 2026-07-14
+- Primary product surfaces: 首页、无限导图、单篇脑洞报告、孵化箱。
+- Evidence reviewed: `app/src/App.tsx`、`IdeaCard.tsx`、`IdeaDiscussionPanel.tsx`、`IdeaChallengePanel.tsx`、`app/src/index.css`，以及用户提供的纸质标签卡与当前报告页截图。
+
+## 报告页设计合同
+
+- Brand：编辑部档案感、清醒、克制；避免后台表单堆叠和装饰性卡片墙。
+- Product goal：用户在十秒内看懂“这个想法是什么、为什么值得、从哪里来、下一步做什么”。
+- Persona/job：独立开发者和创作者快速判断一个脑洞是否值得继续，并从讨论结果回到画布。
+- Information architecture：封面 → 来源证据 → 核心判断 → 深入验证 → 反共识 → 编辑部讨论 → 行动计划 → 统一行动栏。
+- Design principles：每个模块只有一个任务；正文和操作分层；空模块不制造大面积空白；每屏最多一个强主操作。
+- Visual language：深色工作台承载米白正文和橙色行动，浅色纸质标签只用于左侧创意档案；模块主要靠编号、标题、说明、留白和分隔线建立层级。
+- Components：`IdeaCard` 负责报告编排；挑战、讨论、炼化组件负责模块内部状态；底部行动栏统一管理跨模块命令。
+- Accessibility：按钮保持明确边界和焦点环；模块使用语义标题与 `aria-label`；loading 锁定操作；减少动态效果时停止纸张进入动画。
+- Responsive：本轮以桌面报告为验收范围；窄屏时模块单列、行动栏允许换行，纸质档案导航不与正文并排。
+- Interaction states：空状态必须说明模块用途并给出唯一入口；加载显示阶段；成功结果留在原模块；错误由全局提示明确展示。
+- Content voice：模块标题说清用途，不使用抽象营销句；说明文字回答“这个模块帮我做什么”。
+- Implementation constraints：React + TypeScript + Tailwind/CSS；延续现有 Button 和 Lucide；不新增设计系统依赖；必须通过 Vitest、构建与桌面截图检查。
+- Open questions：报告目录是否需要独立锚点导航，待完成桌面使用验证后决定。
+
 ## 1. 产品上下文
 
 - 产品：脑洞实验室，一个模拟人类发散思维的 AI 创意工作台。

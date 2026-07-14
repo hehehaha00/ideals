@@ -140,6 +140,9 @@ export function IdeaChallengePanel({ challenges, disabled, loading, onChallenge 
           </ol>
         </section>
       )}
+      {challenges.length === 0 && !chooserOpen && !loading && (
+        <p className="idea-report-empty-state">还没有挑战结果。选择一个角色，看看它会从哪里拆解这个想法。</p>
+      )}
     </section>
   );
 }

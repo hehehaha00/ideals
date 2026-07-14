@@ -907,11 +907,15 @@ body {
 .idea-report-module { border-bottom: 1px solid rgba(255,251,238,.12); padding-block: 2.25rem; scroll-margin-top: 5rem; }
 .idea-report-module-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.4rem; }
 .idea-report-module-heading h4 { margin-top: .25rem; color: #fff7df; font-size: 1.15rem; font-weight: 650; letter-spacing: .01em; }
-.idea-report-module-heading > span { color: rgba(255,247,223,.38); font-size: .72rem; }
+.idea-report-module-heading > span { color: rgba(255,247,223,.62); font-size: .75rem; }
 .idea-report-module-index { color: #ff7a2c; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .63rem; letter-spacing: .16em; }
 .idea-report-summary { padding-block: 2.5rem; }
 .idea-report-summary h5 { color: #ff8c48; font-size: .88rem; font-weight: 650; }
 .idea-report-summary p { margin-top: .7rem; color: rgba(255,247,223,.78); font-size: 1rem; line-height: 1.8; }
+.idea-report-empty-state { border-left: 2px solid rgba(255,122,44,.55); padding: .8rem 1rem; color: rgba(255,247,223,.62); font-size: .85rem; line-height: 1.6; }
+.idea-report-module > section { margin-top: 0 !important; border-top: 0 !important; border-bottom: 0 !important; padding-block: 0 !important; }
+.idea-report-module > section[aria-label="反共识挑战"] > div:first-child > div > p:first-child,
+.idea-report-module > section[aria-label="创意编辑部讨论"] > div:first-child > div { display: none; }
 .idea-report-module > .idea-refinery, .idea-report-module > [aria-label="反共识挑战"], .idea-report-module > [aria-label="创意编辑部讨论"] { margin-top: 0; border-top: 0; }
 .idea-report-actionbar { position: sticky; bottom: 1rem; z-index: 20; display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: 1.25rem; border: 1px solid rgba(255,251,238,.2); border-radius: .5rem; background: rgba(23,19,16,.92); padding: .65rem; box-shadow: 0 18px 45px rgba(0,0,0,.3); backdrop-filter: blur(14px); }
 .idea-report-actionbar-label { margin-right: .25rem; padding-inline: .45rem; color: rgba(255,247,223,.42); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .66rem; letter-spacing: .12em; }
