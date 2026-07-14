@@ -42,8 +42,11 @@ export function IdeaCardList({ onReturnToOrigin, onContinueFromOrigin, onDiscuss
                   className="idea-report-nav-item"
                   onClick={() => setActiveIdea(idea.id)}
                 >
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <strong>{idea.title}</strong>
+                  <span className="idea-archive-index">#{String(index + 1).padStart(2, "0")}</span>
+                  <span className="min-w-0">
+                    <strong>{idea.title}</strong>
+                    <small>{idea.sourcePath?.at(-2) ?? "待展开的灵感"}</small>
+                  </span>
                 </button>
               ))}
             </div>

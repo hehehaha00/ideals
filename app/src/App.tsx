@@ -34,15 +34,20 @@ function AiWorkingStatus({ loading, streamText, floating = false }: { loading: L
   }
   const steps = AI_WORK_STEPS[loading];
   const activeIndex = streamText.length === 0 ? 0 : Math.min(steps.length - 1, 1 + Math.floor(streamText.length / 140));
+  const progress = steps.length <= 1 ? 100 : Math.round((activeIndex / (steps.length - 1)) * 100);
 
   return (
-    <section className={cn("ai-work-status", floating && "ai-work-status-floating")} aria-live="polite" aria-label="AI 工作状态">
+    <section className={cn("ai-work-status", floating && "ai-work-status-floating")} aria-live="polite" aria-label="AI 工作状态" data-progress={progress}>
       <div className="flex min-w-0 flex-1 items-center gap-3">
         <span className="ai-work-pulse" aria-hidden="true" />
         <div className="min-w-0">
           <p className="text-xs uppercase tracking-[0.22em] text-spark-500">AI is working</p>
           <p className="mt-1 truncate text-sm font-medium text-[#fff7df]">{steps[activeIndex]}</p>
         </div>
+      </div>
+      <div className="ai-work-progress" aria-hidden="true">
+        <div className="ai-work-progress-track"><span style={{ width: `${progress}%` }} /></div>
+        <div className="ai-work-progress-steps">{steps.map((step, index) => <span className={index <= activeIndex ? "is-active" : undefined} key={step}>{step}</span>)}</div>
       </div>
     </section>
   );
