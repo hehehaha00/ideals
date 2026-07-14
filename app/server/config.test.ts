@@ -36,6 +36,10 @@ describe("loadServerConfig", () => {
       "http://localhost:5173",
       "http://127.0.0.1:4173",
       "http://localhost:4173",
+      "http://127.0.0.1:5191",
+      "http://localhost:5191",
+      "http://127.0.0.1:5193",
+      "http://localhost:5193",
     ]);
   });
 
