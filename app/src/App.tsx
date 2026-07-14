@@ -33,6 +33,7 @@ function AiWorkingStatus({ loading, streamText, floating = false }: { loading: L
     return null;
   }
   const steps = AI_WORK_STEPS[loading];
+  const stageLabels = ["读取", "拆解", "碰撞", "生成", "完成"].slice(0, steps.length);
   const activeIndex = streamText.length === 0 ? 0 : Math.min(steps.length - 1, 1 + Math.floor(streamText.length / 140));
   const progress = steps.length <= 1 ? 100 : Math.round((activeIndex / (steps.length - 1)) * 100);
 
@@ -41,13 +42,13 @@ function AiWorkingStatus({ loading, streamText, floating = false }: { loading: L
       <div className="flex min-w-0 flex-1 items-center gap-3">
         <span className="ai-work-pulse" aria-hidden="true" />
         <div className="min-w-0">
-          <p className="text-xs uppercase tracking-[0.22em] text-spark-500">AI is working</p>
-          <p className="mt-1 truncate text-sm font-medium text-[#fff7df]">{steps[activeIndex]}</p>
+          <p className="ai-work-title text-xs uppercase tracking-[0.22em]">AI is working</p>
+          <p className="ai-work-current mt-1 truncate text-sm font-medium">{steps[activeIndex]}</p>
         </div>
       </div>
       <div className="ai-work-progress" aria-hidden="true">
         <div className="ai-work-progress-track"><span style={{ width: `${progress}%` }} /></div>
-        <div className="ai-work-progress-steps">{steps.map((step, index) => <span className={index <= activeIndex ? "is-active" : undefined} key={step}>{step}</span>)}</div>
+        <div className="ai-work-progress-steps">{stageLabels.map((label, index) => <span className={index <= activeIndex ? "is-active" : undefined} key={label}>{label}</span>)}</div>
       </div>
     </section>
   );

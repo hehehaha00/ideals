@@ -28,10 +28,10 @@ export function IdeaCardList({ onReturnToOrigin, onContinueFromOrigin, onDiscuss
       </header>
       {loading === "ideas" && <p className="border-y border-white/10 py-4 text-sm text-white/62">正在整理脑洞报告。</p>}
       {activeIdea && (
-        <div className="grid items-start gap-8 lg:grid-cols-[13rem_minmax(0,1fr)]">
+        <div className="grid items-start gap-10 lg:grid-cols-[18rem_minmax(0,1fr)]">
           <nav aria-label="脑洞导航" className="idea-report-nav lg:sticky lg:top-6">
-            <p className="mb-3 text-xs text-white/44">{ideas.length} 个脑洞</p>
-            <div className="grid gap-1">
+            <div className="idea-archive-heading"><span>IDEA FILES</span><strong>{String(ideas.length).padStart(2, "0")}</strong></div>
+            <div className="idea-archive-stack">
               {ideas.map((idea, index) => (
                 <button
                   key={idea.id}
@@ -40,13 +40,16 @@ export function IdeaCardList({ onReturnToOrigin, onContinueFromOrigin, onDiscuss
                   aria-current={idea.id === activeIdea.id ? "page" : undefined}
                   disabled={loading !== "idle"}
                   className="idea-report-nav-item"
+                  style={{ zIndex: idea.id === activeIdea.id ? ideas.length + 1 : ideas.length - index }}
                   onClick={() => setActiveIdea(idea.id)}
                 >
                   <span className="idea-archive-index">#{String(index + 1).padStart(2, "0")}</span>
-                  <span className="min-w-0">
+                  <span className="idea-archive-body">
+                    <span className="idea-archive-kicker">{idea.sourcePath?.at(-2) ?? "NEW IDEA"}</span>
                     <strong>{idea.title}</strong>
-                    <small>{idea.sourcePath?.at(-2) ?? "待展开的灵感"}</small>
+                    <small>{idea.id === activeIdea.id ? idea.summary : idea.sourcePath?.at(-1) ?? "待展开的灵感"}</small>
                   </span>
+                  <span className="idea-archive-state">{idea.id === activeIdea.id ? "READING" : "FILED"}</span>
                 </button>
               ))}
             </div>
