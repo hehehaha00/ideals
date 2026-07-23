@@ -1,31 +1,31 @@
 [
   {
-    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/ui-home-workspace.txt",
-    "output": "C:/Users/13609/.codex/workbase/ideas/assets/ui/ui-home-workspace.png",
+    "prompt_file": "./prompts/ui-home-workspace.txt",
+    "output": "./assets/ui/ui-home-workspace.png",
     "size": "1536x1024",
     "quality": "high"
   },
   {
-    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/ui-collision-canvas.txt",
-    "output": "C:/Users/13609/.codex/workbase/ideas/assets/ui/ui-collision-canvas.png",
+    "prompt_file": "./prompts/ui-collision-canvas.txt",
+    "output": "./assets/ui/ui-collision-canvas.png",
     "size": "1536x1024",
     "quality": "high"
   },
   {
-    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/ui-idea-detail.txt",
-    "output": "C:/Users/13609/.codex/workbase/ideas/assets/ui/ui-idea-detail.png",
+    "prompt_file": "./prompts/ui-idea-detail.txt",
+    "output": "./assets/ui/ui-idea-detail.png",
     "size": "1536x1024",
     "quality": "high"
   },
   {
-    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/ui-mobile.txt",
-    "output": "C:/Users/13609/.codex/workbase/ideas/assets/ui/ui-mobile.png",
+    "prompt_file": "./prompts/ui-mobile.txt",
+    "output": "./assets/ui/ui-mobile.png",
     "size": "1024x1536",
     "quality": "high"
   },
   {
-    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/ui-style-board.txt",
-    "output": "C:/Users/13609/.codex/workbase/ideas/assets/ui/ui-style-board.png",
+    "prompt_file": "./prompts/ui-style-board.txt",
+    "output": "./assets/ui/ui-style-board.png",
     "size": "1536x1024",
     "quality": "high"
   }

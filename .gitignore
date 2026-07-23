@@ -12,3 +12,8 @@ Thumbs.db
 *.log
 .venv/
 .codegraph/
+.omx/
+.codex-logs/
+app/temp/
+app/temp-motion/
+app/temp-report/

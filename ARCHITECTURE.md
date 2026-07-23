@@ -18,7 +18,7 @@
 - `app/src/components/workbench/MindMapActivity.tsx`：展示 AI 工作时的能量核、轨道、粒子和操作状态。
 - `app/src/components/workbench/useMindMapMotion.ts`：用 GSAP 编排节点爆发、重掷收束、碰撞汇聚和连线绘制，并负责减少动态效果与清理。
 - `app/src/components/workbench/IdeaCardList.tsx`：组合左侧脑洞标题导航和右侧单篇报告，并同步有效的当前脑洞。
-- `app/src/components/workbench/IdeaCard.tsx`：按封面、来源证据、核心判断、验证、挑战、讨论、行动计划组织当前脑洞报告，并统一编排底部主次操作。
+- `app/src/components/workbench/IdeaCard.tsx`：编排报告摘要和单工具工作台；摘要负责判断与路径选择，工具模式负责验证、挑战、讨论或行动计划，避免多个模块同时展开。
 - `app/src/components/workbench/IdeaRefinery.tsx`：把炼化结果排成方向对比表、执行时间线和编辑部批注。
 - `app/src/components/workbench/IdeaChallengePanel.tsx`：在报告中按需选择反共识角色，并以连续编辑部批注展示挑战结果。
 - `app/src/components/workbench/IdeaDiscussionPanel.tsx`：在报告中按需选择讨论阵容和思维机制，召集三轮讨论，支持锁定单条观点、有限介入、方向选择，并允许用户把火花、普通分支或对立分支送回画布。
@@ -31,7 +31,8 @@
 - `app/server/modelOutput.ts`：解析模型 JSON，整理成前端可用结构。
 - `app/server/mindMapLayout.ts`：在首屏安全区内确定性散布初始节点，并让继续发散节点向无限画布外侧执行防重叠布局。
 - `app/server/responseCache.ts`：按模型、操作和压缩输入做内存缓存。
-- `app/server/config.ts`：读取 `.env.local` 或系统环境变量中的中转站配置。
+- `app/server/config.ts`：读取 `.env.local` 或系统环境变量中的提供商、模型、中转站和队列配置。
+- `app/server/providers.ts`：保存不含密钥的 OpenAI 兼容提供商预设，并解析提供商对应的 key 环境变量。
 - `app/server/originPolicy.ts`：限制可以调用本机 AI 代理的网页来源，并生成对应 CORS 响应头。
 - `app/server/llmGateway.ts`：处理请求去重、缓存、并发槽、有界队列和端到端截止时间。
 
@@ -46,6 +47,7 @@
 - 第一版只做单人本地 MVP，减少账号和后端复杂度；当前先完成导图脑暴和脑洞炼化，不做会话云同步、素材池和团队工作坊。
 - AI key 只在本地 Node API 代理中读取，不进入前端环境变量和浏览器包。
 - 本机 AI 代理只接受允许来源，并使用有界队列和端到端截止时间，避免网页借用密钥或请求无限堆积。
+- 当前模型层采用 OpenAI 兼容协议；提供商通过 `IDEA_AI_PROVIDER` 选择，地址、模型和 key 环境变量均可覆盖。Anthropic、Gemini 等原生协议留给后续独立 adapter。
 - 中转站直连被网络或 Cloudflare 拦截时，可通过 `IDEA_AI_PROXY_URL` 让代理层走本地 HTTP 代理。
 - AI 请求集中在 service 层，组件不直接调用 fetch。
 - AI 驱动功能不做本地 fallback；没有 AI 接口时必须暴露错误，避免用户误以为模型真的完成了思考。
@@ -58,4 +60,5 @@
 - 缓存放在服务端内存里，按操作、模型和输入缓存 10 分钟，减少重复请求。
 - 上下文压缩在 `promptBuilder.ts` 完成，避免长主题或长脑洞撑爆请求。
 - 当前桌面布局为首页、全屏导图、独立脑洞结果三个视图；本轮不把手机端作为专项验收范围。
+- 报告页采用摘要先行的渐进式披露：新报告默认进入 `overview`，只展示核心判断和三个工具入口；已有讨论/挑战结果会恢复到对应工具，工具内统一提供返回摘要和上下文主操作。
 - 动画只操作 transform、opacity 和 SVG 描边；Zustand 始终是业务状态源，`loading` 与动画收尾共同决定画布是否可交互。

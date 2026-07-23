@@ -5,7 +5,8 @@ import fs from 'node:fs/promises';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const { chromium } = require('C:/Users/13609/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const playwrightModule = process.env.PLAYWRIGHT_MODULE_PATH ?? 'playwright';
+const { chromium } = require(playwrightModule);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,7 +26,7 @@ await fs.mkdir(outputDir, { recursive: true });
 
 const browser = await chromium.launch({
   headless: true,
-  executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
+  executablePath: process.env.CHROME_EXECUTABLE_PATH,
 });
 const page = await browser.newPage({ viewport: { width: 1700, height: 1120 }, deviceScaleFactor: 1 });
 await page.goto(`file://${htmlPath.replace(/\\/g, '/')}`);

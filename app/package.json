@@ -1,7 +1,12 @@
 {
   "name": "idea-lab-mvp",
-  "private": true,
+  "private": false,
   "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hehehaha00/ideals.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "concurrently -k -n api,web -c yellow,cyan \"npm run dev:api\" \"npm run dev:web\"",

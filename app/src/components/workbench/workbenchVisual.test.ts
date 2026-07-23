@@ -1356,9 +1356,10 @@ describe("workbench visual semantics", () => {
     });
     const { container } = render(React.createElement(IdeaCardList));
 
+    fireEvent.click(screen.getByRole("button", { name: "深入验证" }));
     expect(screen.getAllByRole("button", { name: "收束推进" })).toHaveLength(1);
     expect(container.querySelectorAll("button.bg-spark-500")).toHaveLength(1);
-    expect(screen.getByRole("button", { name: "继续发散" })).not.toHaveClass("bg-spark-500");
+    expect(screen.queryByRole("button", { name: "继续发散" })).not.toBeInTheDocument();
   });
 
   it("reveals the decision brief and a persistent three-stage checklist after 收束推进", () => {
@@ -1371,6 +1372,7 @@ describe("workbench visual semantics", () => {
 
     render(React.createElement(IdeaCardList));
 
+    fireEvent.click(screen.getByRole("button", { name: "深入验证" }));
     expect(screen.getByText("开工决策简报")).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "从一小时到一周" })).not.toBeInTheDocument();
 

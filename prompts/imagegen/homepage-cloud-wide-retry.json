@@ -1,15 +1,15 @@
 [
   {
-    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/imagegen/homepage-cloud-02-moonmist-wide.txt",
-    "output": "C:/Users/13609/.codex/workbase/ideas/assets/ui/homepage-cloud/homepage-cloud-02-moonmist-wide.png",
+    "prompt_file": "./prompts/imagegen/homepage-cloud-02-moonmist-wide.txt",
+    "output": "./assets/ui/homepage-cloud/homepage-cloud-02-moonmist-wide.png",
     "model": "gpt-image-2",
     "size": "2048x1152",
     "quality": "high",
     "format": "png"
   },
   {
-    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/imagegen/homepage-cloud-03-opal-wide.txt",
-    "output": "C:/Users/13609/.codex/workbase/ideas/assets/ui/homepage-cloud/homepage-cloud-03-opal-wide.png",
+    "prompt_file": "./prompts/imagegen/homepage-cloud-03-opal-wide.txt",
+    "output": "./assets/ui/homepage-cloud/homepage-cloud-03-opal-wide.png",
     "model": "gpt-image-2",
     "size": "2048x1152",
     "quality": "high",

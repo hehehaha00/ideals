@@ -67,6 +67,7 @@ describe("idea challenge report", () => {
     render(React.createElement(IdeaCard, { idea: sampleIdea() }));
 
     expect(screen.queryByRole("group", { name: "选择挑战角色" })).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /反共识挑战/ }));
     fireEvent.click(screen.getByRole("button", { name: "换个立场" }));
 
     const roleGroup = screen.getByRole("group", { name: "选择挑战角色" });
@@ -79,6 +80,7 @@ describe("idea challenge report", () => {
     useIdeaStore.setState({ challengeIdea });
 
     render(React.createElement(IdeaCard, { idea: sampleIdea() }));
+    fireEvent.click(screen.getByRole("button", { name: /反共识挑战/ }));
     fireEvent.click(screen.getByRole("button", { name: "换个立场" }));
     fireEvent.click(screen.getByRole("button", { name: "工程师" }));
 
@@ -86,8 +88,8 @@ describe("idea challenge report", () => {
 
     act(() => useIdeaStore.setState({ loading: "challenge" }));
 
-    expect(screen.getByRole("button", { name: "深入验证" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "收藏" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "返回摘要" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "返回报告摘要" })).toBeDisabled();
     expect(within(screen.getByRole("group", { name: "选择挑战角色" })).getByRole("button", { name: "毒舌用户" })).toBeDisabled();
   });
 
@@ -111,6 +113,7 @@ describe("idea challenge report", () => {
     const second = { ...sampleIdea(), id: "idea-2", title: "夜间展签" };
     const view = render(React.createElement(IdeaCard, { idea: first }));
 
+    fireEvent.click(screen.getByRole("button", { name: /反共识挑战/ }));
     fireEvent.click(screen.getByRole("button", { name: "换个立场" }));
     expect(screen.getByRole("group", { name: "选择挑战角色" })).toBeInTheDocument();
 
@@ -122,6 +125,7 @@ describe("idea challenge report", () => {
   it("closes an open chooser when another report operation starts", () => {
     render(React.createElement(IdeaCard, { idea: sampleIdea() }));
 
+    fireEvent.click(screen.getByRole("button", { name: /反共识挑战/ }));
     fireEvent.click(screen.getByRole("button", { name: "换个立场" }));
     expect(screen.getByRole("group", { name: "选择挑战角色" })).toBeInTheDocument();
 

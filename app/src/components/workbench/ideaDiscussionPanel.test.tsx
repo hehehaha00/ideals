@@ -86,13 +86,13 @@ describe("idea discussion panel", () => {
     render(<IdeaReport idea={sampleIdea()} />);
 
     fireEvent.click(screen.getByRole("button", { name: "召集讨论" }));
+    fireEvent.click(screen.getByRole("button", { name: "召集讨论" }));
     expect(discussIdea).toHaveBeenCalledWith("idea-1");
     act(() => useIdeaStore.setState({ loading: "discussion" }));
 
     expect(screen.getByRole("region", { name: "创意编辑部讨论" })).toHaveAttribute("aria-busy", "true");
     expect(screen.getByText("正在准备三轮讨论")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "深入验证" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "换个立场" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "返回摘要" })).toBeDisabled();
     const stop = screen.getByRole("button", { name: "停止讨论" });
     expect(stop).not.toBeDisabled();
     fireEvent.click(stop);
@@ -106,6 +106,7 @@ describe("idea discussion panel", () => {
     useIdeaStore.setState({ discussIdea });
     render(<IdeaReport idea={sampleIdea()} />);
 
+    fireEvent.click(screen.getByRole("button", { name: "召集讨论" }));
     fireEvent.change(screen.getByRole("combobox", { name: "讨论阵容" }), { target: { value: "radical" } });
     fireEvent.change(screen.getByRole("combobox", { name: "思维机制" }), { target: { value: "extreme" } });
     fireEvent.click(screen.getByRole("button", { name: "召集讨论" }));
@@ -314,7 +315,7 @@ describe("idea discussion panel", () => {
     useIdeaStore.setState({ discussionsByIdeaId: { "idea-1": [sampleDiscussion()] }, loading });
     render(<IdeaReport idea={sampleIdea()} />);
 
-    expect(screen.getByRole("button", { name: "深入验证" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "返回报告摘要" })).toBeDisabled();
     expect(screen.getByRole("button", { name: /保守方向 展签生成器/ })).toBeDisabled();
     expect(screen.getByRole("button", { name: "停止讨论" })).not.toBeDisabled();
   });

@@ -1,31 +1,31 @@
 [
   {
-    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/ui-home-workspace.txt",
-    "output": "C:/Users/13609/.codex/workbase/ideas/assets/ui/relay-2k-medium-ui-home-workspace.png",
+    "prompt_file": "./prompts/ui-home-workspace.txt",
+    "output": "./assets/ui/relay-2k-medium-ui-home-workspace.png",
     "size": "2048x2048",
     "quality": "medium"
   },
   {
-    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/ui-collision-canvas.txt",
-    "output": "C:/Users/13609/.codex/workbase/ideas/assets/ui/relay-2k-medium-ui-collision-canvas.png",
+    "prompt_file": "./prompts/ui-collision-canvas.txt",
+    "output": "./assets/ui/relay-2k-medium-ui-collision-canvas.png",
     "size": "2048x2048",
     "quality": "medium"
   },
   {
-    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/ui-idea-detail.txt",
-    "output": "C:/Users/13609/.codex/workbase/ideas/assets/ui/relay-2k-medium-ui-idea-detail.png",
+    "prompt_file": "./prompts/ui-idea-detail.txt",
+    "output": "./assets/ui/relay-2k-medium-ui-idea-detail.png",
     "size": "2048x2048",
     "quality": "medium"
   },
   {
-    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/ui-mobile.txt",
-    "output": "C:/Users/13609/.codex/workbase/ideas/assets/ui/relay-2k-medium-ui-mobile.png",
+    "prompt_file": "./prompts/ui-mobile.txt",
+    "output": "./assets/ui/relay-2k-medium-ui-mobile.png",
     "size": "2048x2048",
     "quality": "medium"
   },
   {
-    "prompt_file": "C:/Users/13609/.codex/workbase/ideas/prompts/ui-style-board.txt",
-    "output": "C:/Users/13609/.codex/workbase/ideas/assets/ui/relay-2k-medium-ui-style-board.png",
+    "prompt_file": "./prompts/ui-style-board.txt",
+    "output": "./assets/ui/relay-2k-medium-ui-style-board.png",
     "size": "2048x2048",
     "quality": "medium"
   }

@@ -492,6 +492,7 @@ test("discussion path accepts a user intervention and grows a traceable branch",
   await page.getByRole("button", { name: "烂尾复盘器", exact: true }).click();
   const report = page.locator("article");
   await report.getByRole("button", { name: "召集讨论", exact: true }).click();
+  await report.getByRole("button", { name: "召集讨论", exact: true }).click();
 
   const discussion = report.getByRole("region", { name: "创意编辑部讨论" });
   await expect(discussion).toBeVisible();
@@ -598,6 +599,7 @@ test("deep path supports collision recipe, challenge, refinement, and incubation
   const transformedTitle = await transformedReport.locator("h3").innerText();
   await expect(transformedReport.getByRole("region", { name: "来源星座" })).toBeVisible();
 
+  await transformedReport.getByRole("button", { name: "反共识挑战", exact: true }).click();
   const challengePanel = page.getByRole("region", { name: "反共识挑战" });
   await challengePanel.getByRole("button", { name: "换个立场", exact: true }).click();
   const roleGroup = challengePanel.getByRole("group", { name: "选择挑战角色" });
@@ -612,6 +614,7 @@ test("deep path supports collision recipe, challenge, refinement, and incubation
   await expect(challengeNotes).toContainText("用户可能没有耐心");
   await expect(challengeNotes).toContainText("一次粘贴");
 
+  await transformedReport.getByRole("button", { name: "返回报告摘要", exact: true }).click();
   await transformedReport.getByRole("button", { name: "深入验证", exact: true }).click();
   await expect.poll(() => requests.refine.length).toBe(1);
   await expect(page.getByRole("heading", { name: "生命力与推进路径", exact: true })).toBeVisible();
@@ -619,7 +622,9 @@ test("deep path supports collision recipe, challenge, refinement, and incubation
   await expect(page.getByText("执行计划", { exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "从一小时到一周", exact: true })).toBeVisible();
 
-  await transformedReport.getByRole("button", { name: "收藏", exact: true }).click();
+  await transformedReport.getByRole("button", { name: "返回报告摘要", exact: true }).click();
+  const transformedFavoriteButton = transformedReport.getByRole("button", { name: "收藏", exact: true });
+  if (await transformedFavoriteButton.count() > 0) await transformedFavoriteButton.click();
   await expect(transformedReport.getByRole("button", { name: "取消收藏", exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "孵化箱 2", exact: true })).toBeVisible();
 

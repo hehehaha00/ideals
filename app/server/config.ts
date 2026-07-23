@@ -3,8 +3,10 @@ import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import type { RelayConfig } from "./relayClient";
 import { parseAllowedOrigins } from "./originPolicy";
+import { resolveProvider } from "./providers";
 
 export interface ServerConfig extends RelayConfig {
+  provider: string;
   port: number;
   cacheTtlMs: number;
   cacheMaxEntries: number;
@@ -31,6 +33,12 @@ function readIntegerEnv(name: string, fallback: number, min: number, max = Numbe
 function readStringEnv(name: string, fallback: string): string {
   const value = process.env[name]?.trim();
   return value && value.length > 0 ? value : fallback;
+}
+
+// 读取非空环境变量；空值视为未配置，便于提供商 key 走预设变量。
+function readOptionalEnv(name: string): string | undefined {
+  const value = process.env[name]?.trim();
+  return value && value.length > 0 ? value : undefined;
 }
 
 // 读取 .env.local，但不覆盖已存在环境变量。
@@ -64,10 +72,15 @@ export function loadEnvFile(filePath = resolve(process.cwd(), ".env.local")): vo
 export function loadServerConfig(): ServerConfig {
   loadEnvFile();
 
+  const provider = resolveProvider(process.env.IDEA_AI_PROVIDER);
+  const providerId = provider.id;
+  const keyEnv = readStringEnv("IDEA_AI_KEY_ENV", provider.keyEnv);
+
   return {
-    baseUrl: readStringEnv("IDEA_AI_BASE_URL", "https://sub2.congmingai.com"),
-    apiKey: process.env.IDEA_AI_API_KEY ?? "",
-    model: readStringEnv("IDEA_AI_MODEL", "gpt-5.5"),
+    provider: providerId,
+    baseUrl: readStringEnv("IDEA_AI_BASE_URL", provider.baseUrl),
+    apiKey: readOptionalEnv("IDEA_AI_API_KEY") ?? readOptionalEnv(keyEnv) ?? "",
+    model: readStringEnv("IDEA_AI_MODEL", provider.model),
     timeoutMs: readIntegerEnv("IDEA_AI_TIMEOUT_MS", 60_000, 1),
     retryCount: readIntegerEnv("IDEA_AI_RETRY_COUNT", 2, 0),
     retryBaseDelayMs: readIntegerEnv("IDEA_AI_RETRY_BASE_DELAY_MS", 350, 0),

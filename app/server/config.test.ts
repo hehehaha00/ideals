@@ -73,8 +73,36 @@ describe("loadServerConfig", () => {
 
     const config = loadServerConfig();
 
-    expect(config.baseUrl).toBe("https://sub2.congmingai.com");
-    expect(config.model).toBe("gpt-5.5");
+    expect(config.baseUrl).toBe("https://api.openai.com");
+    expect(config.model).toBe("gpt-5.2");
+  });
+
+  it("resolves a provider preset and its provider-specific key", () => {
+    vi.stubEnv("IDEA_AI_PROVIDER", "deepseek");
+    vi.stubEnv("IDEA_AI_BASE_URL", "");
+    vi.stubEnv("IDEA_AI_MODEL", "");
+    vi.stubEnv("IDEA_AI_API_KEY", "");
+    vi.stubEnv("DEEPSEEK_API_KEY", "deepseek-test-key");
+
+    const config = loadServerConfig();
+
+    expect(config.provider).toBe("deepseek");
+    expect(config.baseUrl).toBe("https://api.deepseek.com");
+    expect(config.model).toBe("deepseek-v4-flash");
+    expect(config.apiKey).toBe("deepseek-test-key");
+  });
+
+  it("allows generic settings to override a provider preset", () => {
+    vi.stubEnv("IDEA_AI_PROVIDER", "openai");
+    vi.stubEnv("IDEA_AI_BASE_URL", "https://gateway.example.com");
+    vi.stubEnv("IDEA_AI_MODEL", "example-model");
+    vi.stubEnv("IDEA_AI_API_KEY", "generic-key");
+
+    const config = loadServerConfig();
+
+    expect(config.baseUrl).toBe("https://gateway.example.com");
+    expect(config.model).toBe("example-model");
+    expect(config.apiKey).toBe("generic-key");
   });
 
   it("reads a configured browser origin allowlist", () => {

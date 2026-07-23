@@ -4,7 +4,7 @@
 
 **Goal:** Build the first playable MVP of 脑洞实验室: a single-user AI creativity workbench where a user enters a vague topic, generates dimension words, locks/rerolls words, collides them into idea cards, transforms ideas, and saves favorites locally.
 
-**Architecture:** The app lives in `C:/Users/13609/.codex/workbase/ideas/app` so the existing product documents and image assets stay clean at the workspace root. React components render the workflow, Zustand owns client state, a typed `ideaApi` service owns AI calls and local fallback, and localStorage preserves favorites/session state. The first version has no login, no backend database, and no cloud sync.
+**Architecture:** The app lives in `./app` so the existing product documents and image assets stay clean at the workspace root. React components render the workflow, Zustand owns client state, a typed `ideaApi` service owns AI calls and local fallback, and localStorage preserves favorites/session state. The first version has no login, no backend database, and no cloud sync.
 
 **Tech Stack:** Vite, React, TypeScript strict mode, Tailwind CSS, Zustand, Lucide React, Vitest, Testing Library, Playwright, localStorage.
 
@@ -14,11 +14,11 @@
 
 All paths below are relative to:
 
-`C:/Users/13609/.codex/workbase/ideas`
+`.`
 
 The frontend app root is:
 
-`C:/Users/13609/.codex/workbase/ideas/app`
+`./app`
 
 ## MVP Scope Lock
 
@@ -46,91 +46,91 @@ Do not build these in MVP:
 
 ### Root Files
 
-- `C:/Users/13609/.codex/workbase/ideas/README.md`
+- `./README.md`
   Explains the product, how to run the MVP, and common commands.
-- `C:/Users/13609/.codex/workbase/ideas/ARCHITECTURE.md`
+- `./ARCHITECTURE.md`
   Documents the final MVP file responsibilities and data flow.
-- `C:/Users/13609/.codex/workbase/ideas/CONTEXT.md`
+- `./CONTEXT.md`
   Keeps the concise project state after each phase.
 
 ### App Setup
 
-- `C:/Users/13609/.codex/workbase/ideas/app/package.json`
+- `./app/package.json`
   Scripts and dependencies.
-- `C:/Users/13609/.codex/workbase/ideas/app/vite.config.ts`
+- `./app/vite.config.ts`
   Vite config with React plugin.
-- `C:/Users/13609/.codex/workbase/ideas/app/tailwind.config.js`
+- `./app/tailwind.config.js`
   Tailwind content paths and design tokens.
-- `C:/Users/13609/.codex/workbase/ideas/app/postcss.config.js`
+- `./app/postcss.config.js`
   Tailwind/PostCSS config.
-- `C:/Users/13609/.codex/workbase/ideas/app/tsconfig.json`
+- `./app/tsconfig.json`
   Strict TypeScript settings.
-- `C:/Users/13609/.codex/workbase/ideas/app/index.html`
+- `./app/index.html`
   Vite HTML entry.
 
 ### App Source
 
-- `C:/Users/13609/.codex/workbase/ideas/app/src/main.tsx`
+- `./app/src/main.tsx`
   React entry point.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/App.tsx`
+- `./app/src/App.tsx`
   Top-level app composition.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/index.css`
+- `./app/src/index.css`
   Tailwind layers, CSS variables, base styles.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/types/idea.ts`
+- `./app/src/types/idea.ts`
   Shared domain types.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/lib/cn.ts`
+- `./app/src/lib/cn.ts`
   Class name helper using `clsx` and `tailwind-merge`.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/lib/id.ts`
+- `./app/src/lib/id.ts`
   Stable local ID generator.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/lib/ideaEngine.ts`
+- `./app/src/lib/ideaEngine.ts`
   Local fallback generation logic.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/data/fallbackWords.ts`
+- `./app/src/data/fallbackWords.ts`
   Seed words for six dimension groups.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/data/fallbackIdeas.ts`
+- `./app/src/data/fallbackIdeas.ts`
   Local idea templates and transform templates.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/services/ideaApi.ts`
+- `./app/src/services/ideaApi.ts`
   Typed AI service with fallback behavior.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/store/storage.ts`
+- `./app/src/store/storage.ts`
   Versioned localStorage read/write helpers.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/store/ideaStore.ts`
+- `./app/src/store/ideaStore.ts`
   Zustand store and user actions.
 
 ### Components
 
-- `C:/Users/13609/.codex/workbase/ideas/app/src/components/layout/AppShell.tsx`
+- `./app/src/components/layout/AppShell.tsx`
   Three-column shell.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/components/ui/Button.tsx`
+- `./app/src/components/ui/Button.tsx`
   Reusable button.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/components/ui/Panel.tsx`
+- `./app/src/components/ui/Panel.tsx`
   Simple panel container.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/components/ui/Chip.tsx`
+- `./app/src/components/ui/Chip.tsx`
   Dimension word chip.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/TopicComposer.tsx`
+- `./app/src/components/workbench/TopicComposer.tsx`
   Topic input and intensity control.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/DimensionBoard.tsx`
+- `./app/src/components/workbench/DimensionBoard.tsx`
   Six dimension groups.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/CollisionTray.tsx`
+- `./app/src/components/workbench/CollisionTray.tsx`
   Current selected word combination.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/IdeaCard.tsx`
+- `./app/src/components/workbench/IdeaCard.tsx`
   Single idea card.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/IdeaCardList.tsx`
+- `./app/src/components/workbench/IdeaCardList.tsx`
   Idea card list and empty state.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/TransformerPanel.tsx`
+- `./app/src/components/workbench/TransformerPanel.tsx`
   Transform controls for the active idea.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/FavoriteDock.tsx`
+- `./app/src/components/workbench/FavoriteDock.tsx`
   Local favorite list.
 
 ### Tests
 
-- `C:/Users/13609/.codex/workbase/ideas/app/src/lib/ideaEngine.test.ts`
+- `./app/src/lib/ideaEngine.test.ts`
   Local generation tests.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/services/ideaApi.test.ts`
+- `./app/src/services/ideaApi.test.ts`
   API fallback and response validation tests.
-- `C:/Users/13609/.codex/workbase/ideas/app/src/store/ideaStore.test.ts`
+- `./app/src/store/ideaStore.test.ts`
   Store behavior tests.
-- `C:/Users/13609/.codex/workbase/ideas/app/playwright.config.ts`
+- `./app/playwright.config.ts`
   Browser test config.
-- `C:/Users/13609/.codex/workbase/ideas/app/e2e/mvp-flow.spec.ts`
+- `./app/e2e/mvp-flow.spec.ts`
   End-to-end MVP flow.
 
 ---
@@ -138,16 +138,16 @@ Do not build these in MVP:
 ## Task 1: Scaffold App, Tooling, and Base Commands
 
 **Files:**
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/package.json`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/index.html`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/vite.config.ts`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/tsconfig.json`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/tailwind.config.js`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/postcss.config.js`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/main.tsx`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/App.tsx`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/index.css`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/vite-env.d.ts`
+- Create: `./app/package.json`
+- Create: `./app/index.html`
+- Create: `./app/vite.config.ts`
+- Create: `./app/tsconfig.json`
+- Create: `./app/tailwind.config.js`
+- Create: `./app/postcss.config.js`
+- Create: `./app/src/main.tsx`
+- Create: `./app/src/App.tsx`
+- Create: `./app/src/index.css`
+- Create: `./app/src/vite-env.d.ts`
 
 - [ ] **Step 1: Initialize git when the workspace has no repository**
 
@@ -487,12 +487,12 @@ Expected:
 ## Task 2: Domain Types and Local Idea Engine
 
 **Files:**
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/types/idea.ts`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/lib/id.ts`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/data/fallbackWords.ts`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/data/fallbackIdeas.ts`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/lib/ideaEngine.ts`
-- Test: `C:/Users/13609/.codex/workbase/ideas/app/src/lib/ideaEngine.test.ts`
+- Create: `./app/src/types/idea.ts`
+- Create: `./app/src/lib/id.ts`
+- Create: `./app/src/data/fallbackWords.ts`
+- Create: `./app/src/data/fallbackIdeas.ts`
+- Create: `./app/src/lib/ideaEngine.ts`
+- Test: `./app/src/lib/ideaEngine.test.ts`
 
 - [ ] **Step 1: Write the engine tests**
 
@@ -882,8 +882,8 @@ Expected:
 ## Task 3: AI Service Contract with Local Fallback
 
 **Files:**
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/services/ideaApi.ts`
-- Test: `C:/Users/13609/.codex/workbase/ideas/app/src/services/ideaApi.test.ts`
+- Create: `./app/src/services/ideaApi.ts`
+- Test: `./app/src/services/ideaApi.test.ts`
 
 - [ ] **Step 1: Write service tests**
 
@@ -1046,9 +1046,9 @@ Expected:
 ## Task 4: Zustand Store and Local Persistence
 
 **Files:**
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/store/storage.ts`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/store/ideaStore.ts`
-- Test: `C:/Users/13609/.codex/workbase/ideas/app/src/store/ideaStore.test.ts`
+- Create: `./app/src/store/storage.ts`
+- Create: `./app/src/store/ideaStore.ts`
+- Test: `./app/src/store/ideaStore.test.ts`
 
 - [ ] **Step 1: Write store tests**
 
@@ -1357,12 +1357,12 @@ Expected:
 ## Task 5: UI Foundation and App Shell
 
 **Files:**
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/lib/cn.ts`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/components/ui/Button.tsx`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/components/ui/Panel.tsx`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/components/ui/Chip.tsx`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/components/layout/AppShell.tsx`
-- Modify: `C:/Users/13609/.codex/workbase/ideas/app/src/App.tsx`
+- Create: `./app/src/lib/cn.ts`
+- Create: `./app/src/components/ui/Button.tsx`
+- Create: `./app/src/components/ui/Panel.tsx`
+- Create: `./app/src/components/ui/Chip.tsx`
+- Create: `./app/src/components/layout/AppShell.tsx`
+- Modify: `./app/src/App.tsx`
 
 - [ ] **Step 1: Create class name helper**
 
@@ -1585,14 +1585,14 @@ Expected:
 ## Task 6: Core Workbench Components
 
 **Files:**
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/TopicComposer.tsx`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/DimensionBoard.tsx`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/CollisionTray.tsx`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/IdeaCard.tsx`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/IdeaCardList.tsx`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/TransformerPanel.tsx`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/FavoriteDock.tsx`
-- Modify: `C:/Users/13609/.codex/workbase/ideas/app/src/App.tsx`
+- Create: `./app/src/components/workbench/TopicComposer.tsx`
+- Create: `./app/src/components/workbench/DimensionBoard.tsx`
+- Create: `./app/src/components/workbench/CollisionTray.tsx`
+- Create: `./app/src/components/workbench/IdeaCard.tsx`
+- Create: `./app/src/components/workbench/IdeaCardList.tsx`
+- Create: `./app/src/components/workbench/TransformerPanel.tsx`
+- Create: `./app/src/components/workbench/FavoriteDock.tsx`
+- Modify: `./app/src/App.tsx`
 
 - [ ] **Step 1: Create topic composer**
 
@@ -1981,11 +1981,11 @@ Expected:
 ## Task 7: Responsive Polish, Loading States, and Accessibility Pass
 
 **Files:**
-- Modify: `C:/Users/13609/.codex/workbase/ideas/app/src/components/layout/AppShell.tsx`
-- Modify: `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/TopicComposer.tsx`
-- Modify: `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/DimensionBoard.tsx`
-- Modify: `C:/Users/13609/.codex/workbase/ideas/app/src/components/workbench/IdeaCard.tsx`
-- Modify: `C:/Users/13609/.codex/workbase/ideas/app/src/index.css`
+- Modify: `./app/src/components/layout/AppShell.tsx`
+- Modify: `./app/src/components/workbench/TopicComposer.tsx`
+- Modify: `./app/src/components/workbench/DimensionBoard.tsx`
+- Modify: `./app/src/components/workbench/IdeaCard.tsx`
+- Modify: `./app/src/index.css`
 
 - [ ] **Step 1: Add reduced motion support**
 
@@ -2086,8 +2086,8 @@ Expected:
 ## Task 8: Playwright End-to-End MVP Flow
 
 **Files:**
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/playwright.config.ts`
-- Create: `C:/Users/13609/.codex/workbase/ideas/app/e2e/mvp-flow.spec.ts`
+- Create: `./app/playwright.config.ts`
+- Create: `./app/e2e/mvp-flow.spec.ts`
 
 - [ ] **Step 1: Create Playwright config**
 
@@ -2206,9 +2206,9 @@ Expected:
 ## Task 9: Documentation and Final Verification
 
 **Files:**
-- Create or Modify: `C:/Users/13609/.codex/workbase/ideas/README.md`
-- Create or Modify: `C:/Users/13609/.codex/workbase/ideas/ARCHITECTURE.md`
-- Modify: `C:/Users/13609/.codex/workbase/ideas/CONTEXT.md`
+- Create or Modify: `./README.md`
+- Create or Modify: `./ARCHITECTURE.md`
+- Modify: `./CONTEXT.md`
 
 - [ ] **Step 1: Write README**
 

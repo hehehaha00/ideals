@@ -14,25 +14,29 @@ npm run dev
 
 ## AI 配置
 
-真实 AI 通过本地代理调用中转站，密钥不会进入浏览器打包结果。复制 `app/.env.example` 为 `app/.env.local` 后填写本地密钥即可。
+真实 AI 通过本地代理调用 OpenAI 兼容接口，密钥不会进入浏览器打包结果。复制 `app/.env.example` 为 `app/.env.local` 后选择提供商并填写服务端密钥即可。
 
 ```powershell
 Set-Location .\app
 Copy-Item .env.example .env.local
 ```
 
-需要配置的变量：
+常用配置变量：
 
-- `IDEA_AI_BASE_URL`：中转站地址，默认 `https://sub2.congmingai.com`。
-- `IDEA_AI_MODEL`：模型名，默认 `gpt-5.5`。
-- `IDEA_AI_API_KEY`：中转站 key。
+- `IDEA_AI_PROVIDER`：提供商预设，可选 `openai`、`openrouter`、`deepseek`、`moonshot`、`siliconflow`、`relay`、`custom`，默认 `openai`。
+- `IDEA_AI_BASE_URL`：可选，覆盖预设地址；当前协议要求提供商兼容 `/v1/chat/completions`。
+- `IDEA_AI_MODEL`：可选，覆盖预设模型。
+- `IDEA_AI_API_KEY`：可选的通用 key；也可以直接配置预设对应的环境变量，例如 `OPENAI_API_KEY`、`DEEPSEEK_API_KEY`。
+- `IDEA_AI_KEY_ENV`：可选，自定义 key 环境变量名，适合 `custom` 提供商。
 - `IDEA_AI_CACHE_TTL_MS`：AI 结果缓存时间，默认 10 分钟。
 - `IDEA_AI_PROXY_URL`：可选；直连中转站被拦时使用本地代理，例如 `http://127.0.0.1:7897`。
 - `IDEA_APP_ORIGINS`：允许调用本机 AI 代理的网页来源，多个来源用逗号分隔。
-- `IDEA_AI_MAX_QUEUE`：AI 请求最大等待队列，超过后立即提示繁忙。
+- `IDEA_AI_MAX_QUEUED_REQUESTS`：AI 请求最大等待队列，超过后立即提示繁忙。
 - `IDEA_AI_REQUEST_DEADLINE_MS`：包含排队、重试和上游读取的总截止时间。
 
-如果没有配置 key，产品会明确提示 AI key 未配置；当前产品不再用本地假内容伪造 AI 结果。
+当前版本统一使用 OpenAI 兼容协议；Anthropic、Gemini 等原生协议需要后续增加独立适配器。没有配置 key 时，产品会明确提示 AI key 未配置，不会用本地假内容伪造结果。
+
+不要把 `app/.env.local`、任何真实 key 或服务器日志提交到 Git。部署到服务器时，把 key 放在部署平台的 secret 中，并只让服务器访问上游模型。
 
 ## 测试
 
@@ -74,8 +78,9 @@ npm run e2e -- --project=chromium
 - 讨论火花主动采集：讨论内容不会自动塞进画布，用户明确采集后才生成新节点；讨论和采集状态刷新后仍保留。
 - 有限用户介入：可以追问、不同意或补充一句自己的判断，并指定角色完成一轮回应；每场最多三次，避免退化成无限群聊。
 - 讨论方向续写：选择保守、激进或意外方向后生成 4-6 个新关键词，自动返回来源导图并记录完整讨论来源，支持一步撤销。
-- 左侧脑洞标题导航和右侧单篇完整报告，避免多张卡片同时展开。
-- 报告内提供方向对比表、1 小时 / 1 天 / 1 周执行时间线和六角色编辑部批注。
+- 左侧脑洞标题导航和右侧单篇报告；报告首屏只展示摘要和三个下一步入口，验证、挑战、讨论和行动计划按需进入单工具工作台。
+- 工具工作台提供明确的返回摘要、空状态、加载态和当前工具主操作；已有讨论或挑战结果刷新后会恢复到对应工作台。
+- 炼化结果继续提供方向对比表、1 小时 / 1 天 / 1 周执行时间线和六角色编辑部批注，但不再与其他工具同时纵向展开。
 - 变形方向收进菜单，炼化前后各保留一个明确主操作。
 - 脑洞变形和炼化。
 - 工作区、收藏和炼化结果的本地持久化。
@@ -91,3 +96,4 @@ npm run e2e -- --project=chromium
 
 - 已在前期调研 GitHub 和 skills 项目，结论沉淀在 `PROJECT_VISION.md`、`TASKS.md` 和 `DESIGN.md`。
 - 2026-07-10 查阅 GSAP 官方 React、Timeline 和 Stagger 文档：使用 `useGSAP()` 自动清理 React 18 动画，以 Timeline 编排阶段、Stagger 控制节点错峰爆发；业务状态继续由 Zustand 管理。
+- 2026-07-23 核对 OpenAI、OpenRouter、DeepSeek、Moonshot 和 SiliconFlow 官方接口文档：这些预设都可走 OpenAI 兼容 Chat Completions；地址和默认模型集中在 `app/server/providers.ts`，实际部署可通过环境变量覆盖。

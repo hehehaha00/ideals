@@ -1,6 +1,6 @@
-// 这个文件展示单篇脑洞报告，并编排收藏、变形和炼化操作。
-import { useEffect, useRef } from "react";
-import { Bookmark, ChevronDown, Route, Sparkles, WandSparkles } from "lucide-react";
+// 这个文件把单篇脑洞组织成“摘要 + 单工具工作台”，避免多个报告模块同时争抢注意力。
+import { useEffect, useRef, useState } from "react";
+import { ArrowLeft, Bookmark, ChevronDown, Route, Sparkles, WandSparkles } from "lucide-react";
 import { useIdeaStore } from "../../store/ideaStore";
 import { TRANSFORM_DIRECTIONS, type IdeaCard as IdeaCardType, type IdeaChallenge, type IdeaChallengeRole, type IdeaDiscussion, type IdeaDiscussionSetup, type TransformDirection } from "../../types/idea";
 import { Button } from "../ui/Button";
@@ -18,10 +18,20 @@ interface IdeaCardProps {
   onDiscussionBranchCreated?: () => void;
 }
 
+type ReportMode = "overview" | "refine" | "challenge" | "discussion" | "plan";
+type ToolMode = Exclude<ReportMode, "overview">;
+
 const EMPTY_CHALLENGES: IdeaChallenge[] = [];
 const EMPTY_DISCUSSIONS: IdeaDiscussion[] = [];
 
-// 渲染当前脑洞的完整报告。
+const TOOL_META: Record<ToolMode, { index: string; title: string; purpose: string }> = {
+  refine: { index: "01 / TEST", title: "深入验证", purpose: "把直觉拆成用户、场景和可以马上验证的判断。" },
+  challenge: { index: "02 / PRESSURE TEST", title: "反共识挑战", purpose: "找出最容易被忽略的假设，避免只证明自己想相信的事。" },
+  discussion: { index: "03 / ROUND TABLE", title: "编辑部讨论", purpose: "让不同立场把想法推向新的分支，而不是轮流发表意见。" },
+  plan: { index: "04 / NEXT MOVE", title: "行动计划", purpose: "把已经确认的方向收束成一个最小、可执行的下一步。" },
+};
+
+// 渲染当前脑洞的摘要、工具工作区和上下文操作。
 export function IdeaCard({ idea, onReturnToOrigin, onContinueFromOrigin, onDiscussionBranchCreated }: IdeaCardProps): JSX.Element {
   const favorites = useIdeaStore((state) => state.favorites);
   const loading = useIdeaStore((state) => state.loading);
@@ -43,8 +53,10 @@ export function IdeaCard({ idea, onReturnToOrigin, onContinueFromOrigin, onDiscu
   const toggleIdeaExecutionTask = useIdeaStore((state) => state.toggleIdeaExecutionTask);
   const toggleFavorite = useIdeaStore((state) => state.toggleFavorite);
   const isFavorite = favorites.some((favorite) => favorite.idea.id === idea.id);
+  const [mode, setMode] = useState<ReportMode>(() => discussions.length > 0 ? "discussion" : challenges.length > 0 ? "challenge" : "overview");
   const menuRef = useRef<HTMLDetailsElement>(null);
   const summaryRef = useRef<HTMLElement>(null);
+  const previousIdeaIdRef = useRef(idea.id);
   const sourcePath = idea.sourcePath ?? idea.sourceWords.map((word) => word.text);
   const mindMap = useIdeaStore((state) => state.mindMap);
   const canContinueFromOrigin = Boolean(
@@ -54,120 +66,86 @@ export function IdeaCard({ idea, onReturnToOrigin, onContinueFromOrigin, onDiscu
       && idea.origin.sourceNodeIds.length > 0
       && idea.origin.sourceNodeIds.every((nodeId) => mindMap.nodes.some((node) => node.id === nodeId && node.selectable)),
   );
+  const isBusy = loading !== "idle";
 
-  // AI 开始工作时收起仍打开的变形菜单，避免报告继续发起新操作。
   useEffect(() => {
-    if (loading !== "idle") menuRef.current?.removeAttribute("open");
+    if (isBusy) menuRef.current?.removeAttribute("open");
+  }, [isBusy]);
+
+  useEffect(() => {
+    if (loading === "challenge") setMode("challenge");
+    if (loading === "discussion" || loading === "discussionResponse" || loading === "discussionBranch") setMode("discussion");
+    if (loading === "refine") setMode("refine");
   }, [loading]);
 
-  // 切到当前脑洞后沿用原有变形行为。
+  useEffect(() => {
+    if (previousIdeaIdRef.current !== idea.id) {
+      previousIdeaIdRef.current = idea.id;
+      setMode("overview");
+    }
+  }, [idea.id]);
+
+  const openTool = (nextMode: ToolMode): void => {
+    setActiveIdea(idea.id);
+    setMode(nextMode);
+  };
+
   const handleTransform = (direction: TransformDirection): void => {
     setActiveIdea(idea.id);
     void transformActiveIdea(direction);
   };
 
-  // 切到当前脑洞后沿用原有炼化行为。
   const handleRefine = (): void => {
-    setActiveIdea(idea.id);
-    void refineActiveIdea();
+    openTool("refine");
+    if (!refinement) void refineActiveIdea();
   };
 
-  // 从当前报告发起指定角色的反共识挑战。
   const handleChallenge = (role: IdeaChallengeRole): void => {
     setActiveIdea(idea.id);
     void challengeIdea(idea.id, role);
   };
 
-  // 召集多角色编辑部围绕当前脑洞讨论。
   const handleDiscuss = (setup: IdeaDiscussionSetup): void => {
     setActiveIdea(idea.id);
-    if (setup.lineup === "standard" && setup.mechanism === "relay") {
-      void discussIdea(idea.id);
-    } else {
-      void discussIdea(idea.id, setup);
-    }
+    if (setup.lineup === "standard" && setup.mechanism === "relay") void discussIdea(idea.id);
+    else void discussIdea(idea.id, setup);
   };
+
+  const tool = mode === "overview" ? undefined : TOOL_META[mode];
 
   return (
     <article className="idea-report" aria-labelledby={`idea-title-${idea.id}`}>
-      <header className="idea-report-cover">
-        <div className="flex flex-wrap items-start justify-between gap-5">
-          <div className="min-w-0 flex-1">
-            <div className="idea-report-kicker"><span>IDEA REPORT</span><span>#{idea.id.slice(-2).toUpperCase()}</span></div>
-            <h3 id={`idea-title-${idea.id}`} className="mt-3 break-words font-serif text-4xl leading-tight md:text-5xl">{idea.title}</h3>
-            <p className="mt-4 max-w-3xl text-lg leading-8 text-white/72">{idea.summary}</p>
-          </div>
-          <span className={`idea-report-status ${isFavorite ? "is-saved" : ""}`}><Bookmark className="h-4 w-4" aria-hidden="true" />{isFavorite ? "已收藏" : "未收藏"}</span>
-        </div>
-        <div className="idea-report-source mt-6">
-          <Route className="mt-1 h-4 w-4 shrink-0 text-spark-500" aria-hidden="true" />
-          <div><p className="text-xs text-white/42">来源路径</p><p className="mt-1 break-words text-sm leading-6 text-white/64">{sourcePath.join(" → ")}</p></div>
-        </div>
-      </header>
+      {mode === "overview" ? (
+        <>
+          <header className="idea-report-cover">
+            <div className="idea-report-cover-topline"><div className="idea-report-kicker"><span>IDEA REPORT</span><span>#{idea.id.slice(-2).toUpperCase()}</span></div><span className={`idea-report-status ${isFavorite ? "is-saved" : ""}`}><Bookmark className="h-4 w-4" aria-hidden="true" />{isFavorite ? "已收藏" : "未收藏"}</span></div>
+            <h3 id={`idea-title-${idea.id}`} className="mt-4 max-w-4xl break-words font-serif text-4xl leading-tight md:text-6xl">{idea.title}</h3>
+            <p className="idea-report-lead">{idea.summary}</p>
+            <div className="idea-report-source mt-6"><Route className="mt-1 h-4 w-4 shrink-0 text-spark-500" aria-hidden="true" /><div><p className="text-xs text-white/42">来源路径</p><p className="mt-1 break-words text-sm leading-6 text-white/64">{sourcePath.join(" → ")}</p></div></div>
+          </header>
 
-      {idea.origin && onReturnToOrigin && (
-        <section className="idea-report-module idea-report-evidence" aria-labelledby="origin-heading">
-          <div className="idea-report-module-heading"><div><p className="idea-report-module-index">01 / SOURCE</p><h4 id="origin-heading">来源证据</h4></div><span>这条脑洞从哪里长出来</span></div>
-          <IdeaOriginConstellation disabled={loading !== "idle"} idea={idea} map={mindMap} onReturnToOrigin={(focusNodeId) => onReturnToOrigin(idea.id, focusNodeId)} />
+          {idea.origin && onReturnToOrigin && <section className="idea-report-evidence" aria-labelledby="origin-heading"><div className="idea-report-section-label"><span>来源证据</span><span>这条脑洞从哪里长出来</span></div><IdeaOriginConstellation disabled={isBusy} idea={idea} map={mindMap} onReturnToOrigin={(focusNodeId) => onReturnToOrigin(idea.id, focusNodeId)} /></section>}
+
+          <section className="idea-report-summary" aria-labelledby="summary-heading"><div className="idea-report-section-label"><span id="summary-heading">核心判断</span><span>先决定它是否值得继续</span></div><div className="idea-report-judgement"><div><h4>为什么值得做</h4><p>{idea.whyInteresting}</p></div><div><h4>第一版怎么做</h4><p>{idea.firstVersion}</p></div></div></section>
+
+          <section className="idea-report-next" aria-labelledby="next-heading"><div className="idea-report-section-label"><span id="next-heading">下一步选择</span><span>选一条路，报告会切换到对应工作台</span></div><div className="idea-report-route-list">
+            <button type="button" aria-label="深入验证" className="idea-report-route" disabled={isBusy} onClick={handleRefine}><span className="idea-report-route-index">01</span><span><strong>深入验证</strong><small>把直觉变成可验证的判断</small></span><Sparkles className="h-5 w-5" aria-hidden="true" /></button>
+            <button type="button" aria-label="反共识挑战" className="idea-report-route" disabled={isBusy} onClick={() => openTool("challenge")}><span className="idea-report-route-index">02</span><span><strong>反共识挑战</strong><small>找出最容易被忽略的假设</small></span><Route className="h-5 w-5" aria-hidden="true" /></button>
+            <button type="button" aria-label="召集讨论" className="idea-report-route" disabled={isBusy} onClick={() => openTool("discussion")}><span className="idea-report-route-index">03</span><span><strong>编辑部讨论</strong><small>让不同立场把想法推向新的分支</small></span><WandSparkles className="h-5 w-5" aria-hidden="true" /></button>
+          </div></section>
+
+          <footer className="idea-report-actionbar"><span className="idea-report-actionbar-label">报告动作</span><Button variant="secondary" disabled={isBusy} icon={<Bookmark className="h-4 w-4" aria-hidden="true" />} onClick={() => toggleFavorite(idea.id)}>{isFavorite ? "取消收藏" : "收藏"}</Button><Button variant="secondary" disabled={!canContinueFromOrigin || !onContinueFromOrigin || isBusy} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} onClick={() => onContinueFromOrigin?.(idea.id)}>继续发散</Button><details ref={menuRef} className="idea-transform-menu" onKeyDown={(event) => { if (event.key === "Escape") { menuRef.current?.removeAttribute("open"); summaryRef.current?.focus(); } }}><summary aria-disabled={isBusy} ref={summaryRef} onClick={(event) => { if (isBusy) event.preventDefault(); }}><WandSparkles className="h-4 w-4" aria-hidden="true" />换个角度<ChevronDown className="h-4 w-4" aria-hidden="true" /></summary><div>{TRANSFORM_DIRECTIONS.map((direction) => <button key={direction} type="button" disabled={isBusy} onClick={() => { handleTransform(direction); menuRef.current?.removeAttribute("open"); summaryRef.current?.focus(); }}>{direction}</button>)}</div></details></footer>
+        </>
+      ) : (
+        <section className="idea-report-tool-view" aria-labelledby={`tool-title-${idea.id}`}>
+          <header className="idea-report-tool-header"><button type="button" className="idea-report-back" disabled={isBusy} onClick={() => setMode("overview")}><ArrowLeft className="h-4 w-4" aria-hidden="true" />返回报告摘要</button><div className="idea-report-tool-title"><p>{tool?.index}</p><h3 id={`tool-title-${idea.id}`}>{tool?.title}</h3><span>{tool?.purpose}</span></div></header>
+          {mode === "refine" && <div className="idea-report-tool-content"><IdeaRefinery refinement={refinement} selectedAction={selectedAction} loading={loading === "refine"} />{refinement && <div className="idea-report-tool-followup"><IdeaDecisionBrief idea={idea} refinement={refinement} />{executionPlan && <IdeaExecutionPlan plan={executionPlan} disabled={isBusy} onToggle={(taskId) => toggleIdeaExecutionTask(idea.id, taskId)} />}</div>}</div>}
+          {mode === "challenge" && <div className="idea-report-tool-content"><IdeaChallengePanel key={idea.id} challenges={challenges} disabled={isBusy} loading={loading === "challenge"} onChallenge={handleChallenge} /></div>}
+          {mode === "discussion" && <div className="idea-report-tool-content"><IdeaDiscussionPanel key={`discussion-${idea.id}`} discussions={discussions} disabled={isBusy} loading={loading === "discussion" || loading === "discussionResponse" || loading === "discussionBranch" ? loading : "idle"} onCollectSpark={(discussionId, sparkId) => collectDiscussionSpark(idea.id, discussionId, sparkId)} onContinueDirection={(discussionId, directionKey, opposite) => opposite === undefined ? continueDiscussionDirection(idea.id, discussionId, directionKey) : continueDiscussionDirection(idea.id, discussionId, directionKey, opposite)} onDiscuss={handleDiscuss} onDiscussionBranchCreated={onDiscussionBranchCreated} onRespond={(discussionId, input) => { void respondToIdeaDiscussion(idea.id, discussionId, input); }} onStop={stopDiscussion} /></div>}
+          {mode === "plan" && <div className="idea-report-tool-content"><div className="idea-report-plan-empty">{refinement ? <><IdeaDecisionBrief idea={idea} refinement={refinement} />{executionPlan && <IdeaExecutionPlan plan={executionPlan} disabled={isBusy} onToggle={(taskId) => toggleIdeaExecutionTask(idea.id, taskId)} />}</> : <p>先完成深入验证，行动计划才会有可靠依据。</p>}</div></div>}
+          <footer className="idea-report-tool-actions"><Button variant="secondary" disabled={isBusy} onClick={() => setMode("overview")}>返回摘要</Button>{mode === "refine" && refinement && <Button variant="primary" disabled={isBusy} icon={<Route className="h-4 w-4" aria-hidden="true" />} onClick={() => { chooseRefinementAction(idea.id, "收束推进"); setMode("plan"); }}>收束推进</Button>}{mode === "plan" && onContinueFromOrigin && <Button variant="primary" disabled={!canContinueFromOrigin || isBusy} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} onClick={() => onContinueFromOrigin(idea.id)}>回到导图继续发散</Button>}</footer>
         </section>
       )}
-
-      <section id="report-summary" className="idea-report-module idea-report-summary" aria-labelledby="summary-heading">
-        <div className="idea-report-module-heading"><div><p className="idea-report-module-index">02 / READ FIRST</p><h4 id="summary-heading">核心判断</h4></div><span>先判断值不值得继续</span></div>
-        <div className="grid gap-8 md:grid-cols-2">
-          <div><h5>为什么值得做</h5><p>{idea.whyInteresting}</p></div>
-          <div><h5>第一版怎么做</h5><p>{idea.firstVersion}</p></div>
-        </div>
-      </section>
-
-      <section id="report-refinery" className="idea-report-module" aria-label="深入验证">
-        <div className="idea-report-module-heading"><div><p className="idea-report-module-index">03 / TEST</p><h4>深入验证</h4></div><span>把直觉变成可验证的判断</span></div>
-        <IdeaRefinery refinement={refinement} selectedAction={selectedAction} loading={loading === "refine"} />
-      </section>
-
-      <section id="report-challenge" className="idea-report-module" aria-label="反共识挑战">
-        <div className="idea-report-module-heading"><div><p className="idea-report-module-index">04 / PRESSURE TEST</p><h4>反共识挑战</h4></div><span>找出最容易被忽略的假设</span></div>
-        <IdeaChallengePanel key={idea.id} challenges={challenges} disabled={loading !== "idle"} loading={loading === "challenge"} onChallenge={handleChallenge} />
-      </section>
-
-      <section id="report-discussion" className="idea-report-module" aria-label="编辑部讨论">
-        <div className="idea-report-module-heading"><div><p className="idea-report-module-index">05 / ROUND TABLE</p><h4>编辑部讨论</h4></div><span>让不同立场把想法推向不同方向</span></div>
-        <IdeaDiscussionPanel
-          key={`discussion-${idea.id}`}
-          discussions={discussions}
-          disabled={loading !== "idle"}
-          loading={loading === "discussion" || loading === "discussionResponse" || loading === "discussionBranch" ? loading : "idle"}
-          onCollectSpark={(discussionId, sparkId) => collectDiscussionSpark(idea.id, discussionId, sparkId)}
-          onContinueDirection={(discussionId, directionKey, opposite) => opposite === undefined ? continueDiscussionDirection(idea.id, discussionId, directionKey) : continueDiscussionDirection(idea.id, discussionId, directionKey, opposite)}
-          onDiscuss={handleDiscuss}
-          onDiscussionBranchCreated={onDiscussionBranchCreated}
-          onRespond={(discussionId, input) => { void respondToIdeaDiscussion(idea.id, discussionId, input); }}
-          onStop={stopDiscussion}
-        />
-      </section>
-
-      <section id="report-plan" className="idea-report-module" aria-label="行动计划">
-        <div className="idea-report-module-heading"><div><p className="idea-report-module-index">06 / NEXT MOVE</p><h4>行动计划</h4></div><span>选择一个最小的下一步</span></div>
-        {refinement && <IdeaDecisionBrief idea={idea} refinement={refinement} />}
-        {executionPlan && <IdeaExecutionPlan plan={executionPlan} disabled={loading !== "idle"} onToggle={(taskId) => toggleIdeaExecutionTask(idea.id, taskId)} />}
-      </section>
-
-      <footer id="report-actions" className="idea-report-actionbar">
-        <span className="idea-report-actionbar-label">下一步</span>
-        {refinement ? (
-          <Button variant="primary" disabled={loading !== "idle"} icon={<Route className="h-4 w-4" aria-hidden="true" />} onClick={() => chooseRefinementAction(idea.id, "收束推进")}>收束推进</Button>
-        ) : (
-          <Button variant="primary" icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} disabled={loading !== "idle"} onClick={handleRefine}>{loading === "refine" ? "正在验证" : "深入验证"}</Button>
-        )}
-        <Button variant="secondary" disabled={loading !== "idle"} icon={<Bookmark className="h-4 w-4" aria-hidden="true" />} onClick={() => toggleFavorite(idea.id)}>{isFavorite ? "取消收藏" : "收藏"}</Button>
-        <Button variant="secondary" disabled={!canContinueFromOrigin || !onContinueFromOrigin || loading !== "idle"} icon={<Sparkles className="h-4 w-4" aria-hidden="true" />} onClick={() => onContinueFromOrigin?.(idea.id)}>继续发散</Button>
-        <details ref={menuRef} className="idea-transform-menu" onKeyDown={(event) => { if (event.key === "Escape") { menuRef.current?.removeAttribute("open"); summaryRef.current?.focus(); } }}>
-          <summary aria-disabled={loading !== "idle"} ref={summaryRef} onClick={(event) => { if (loading !== "idle") event.preventDefault(); }}><WandSparkles className="h-4 w-4" aria-hidden="true" />换个角度<ChevronDown className="h-4 w-4" aria-hidden="true" /></summary>
-          <div>
-            {TRANSFORM_DIRECTIONS.map((direction) => <button key={direction} type="button" disabled={loading !== "idle"} onClick={() => { handleTransform(direction); menuRef.current?.removeAttribute("open"); summaryRef.current?.focus(); }}>{direction}</button>)}
-          </div>
-        </details>
-      </footer>
     </article>
   );
 }
