@@ -1,7 +1,0 @@
-LANDSCAPE DESKTOP 16:9 UI mockup, not portrait, not mobile. A wide first-screen homepage for "Idea Lab / 脑洞实验室".
-Only show these UI elements: tiny wordmark "IDEA LAB", huge Chinese headline "先丢一个模糊念头。", one wide floating prompt input, four small recommendation chips, and one start button "开始发散".
-Style: moonlit fog above a dark cloud ocean, deep indigo and graphite with warm silver-gold mist. The whole interface floats in the air like a dream, not inside a frame.
-Remove all outer boxes, no dashboard frame, no sidebars, no cards, no stage navigation, no large panel. The input is a horizontal fog membrane with blurred edges and a gentle inner glow, almost borderless.
-Suggested chips: "开发者工具", "游戏机制", "内容选题", "我不知道做什么".
-Composition must be wide desktop: content centered horizontally with generous empty space on left and right, low cloud horizon, subtle moon haze in the background. Keep text readable and hierarchy clear.
-No vertical poster layout, no phone screen, no extra sections, no charts, no neon cyberpunk.

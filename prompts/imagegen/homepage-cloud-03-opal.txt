@@ -1,7 +1,0 @@
-A polished futuristic homepage UI mockup for an AI creativity product, minimal first screen only.
-Visible elements: title "先丢一个模糊念头。", a single oversized prompt input, four tiny recommendation tokens, one "开始发散" call-to-action.
-Style: pearlescent opal glass, translucent white clouds, soft lavender-cyan refractions, frosted lens blur, very airy luxury interface. Think cloud layer meets spatial computing, but warmer and more human.
-The UI must not be inside a card or frame. The input floats by itself as a semi-transparent milky glass slab with barely visible boundary, surrounded by soft mist and cloud wisps. Chips float separately with subtle glow. Button is small, warm coral or amber, refined.
-Layout: centered vertical rhythm, no top nav except tiny "IDEA LAB" wordmark, no stage rail, no side panels, no box shadow container, no dashboard artifacts.
-Make it clear and usable, with high contrast readable typography, professional spacing, and a dreamlike blurred cloud depth behind the controls.
-No random product screenshots, no data visualizations, no illustrations of people, no devices, no hard rectangular containers.

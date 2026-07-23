@@ -1,7 +1,0 @@
-LANDSCAPE DESKTOP 16:9 UI mockup, wide browser homepage, not portrait. A minimal first screen for an AI creativity product.
-Visible UI only: tiny "IDEA LAB", headline "先丢一个模糊念头。", one single oversized prompt input, four recommendation chips, one "开始发散" button.
-Style: pearlescent opal glass floating above soft white clouds. Frosted translucent material, lavender-cyan light refractions, misty ivory background, elegant and airy. The controls feel light, suspended, and slightly blurred by cloud vapor.
-No outer shell, no hero card, no rectangular page container, no sidebar, no stage rail, no dashboard components. The input should be a wide milky glass ribbon with dissolved edges, not a solid box.
-Recommended chips should be small drifting labels, not cards. Button is refined warm coral/amber, small compared with the input.
-Use huge negative space and clear desktop spacing. The page should feel like a cloud layer, not a SaaS dashboard.
-Avoid vertical poster composition, avoid mobile layout, avoid hard borders, avoid dense UI.

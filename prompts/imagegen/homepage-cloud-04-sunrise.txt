@@ -1,7 +1,0 @@
-A soft editorial web app hero screen for a Chinese AI ideation tool named "脑洞实验室".
-Only include: big headline "先丢一个模糊念头。", one prompt input field, four recommendation chips, and one start button "开始发散".
-Mood: warm sunrise above a pale cloud sea, peach, champagne, misty ivory, a little gold light. The page should feel like a thought gently lifting off, not like a dashboard.
-The input field is cloud-like and almost frameless, cream translucent surface floating in the air. The button is a small warm ember. Recommendation chips are tiny soft labels tucked below the input.
-No outer box, no hero card, no rectangular shell, no sidebars, no stage navigation, no charts, no panels. Use the background atmosphere itself as the layout.
-Typography: elegant large Chinese serif headline with modern sans UI text. Lots of negative space, dreamy blur, shallow depth of field, soft edges, subtle cloud shadows.
-Make this a complete homepage visual direction mockup, not a poster, not a marketing landing page with sections.

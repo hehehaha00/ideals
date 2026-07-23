@@ -94,6 +94,6 @@ npm run e2e -- --project=chromium
 
 ## 搜索记录
 
-- 已在前期调研 GitHub 和 skills 项目，结论沉淀在 `PROJECT_VISION.md`、`TASKS.md` 和 `DESIGN.md`。
+- 设计和研发过程资料保留在本地，不随开源应用版本发布；公开仓库只保留运行、配置和使用所需内容。
 - 2026-07-10 查阅 GSAP 官方 React、Timeline 和 Stagger 文档：使用 `useGSAP()` 自动清理 React 18 动画，以 Timeline 编排阶段、Stagger 控制节点错峰爆发；业务状态继续由 Zustand 管理。
 - 2026-07-23 核对 OpenAI、OpenRouter、DeepSeek、Moonshot 和 SiliconFlow 官方接口文档：这些预设都可走 OpenAI 兼容 Chat Completions；地址和默认模型集中在 `app/server/providers.ts`，实际部署可通过环境变量覆盖。

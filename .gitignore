@@ -17,3 +17,17 @@ Thumbs.db
 app/temp/
 app/temp-motion/
 app/temp-report/
+
+# Internal planning, design exploration and local generation material.
+AGENTS.md
+.impeccable.md
+ARCHITECTURE.md
+CONTEXT.md
+DESIGN.md
+PROJECT_VISION.md
+TASKS.md
+docs/
+prompts/
+mockups/
+assets/ui/
+scripts/
